@@ -1,16 +1,12 @@
-var card = {
-	name: 'BASIC-GAIN-1',
-	resolve: function(game) {
-		//adds itself to the currency stack
-		game.zones.getZone('player-' + game.activePlayer).getStack('currency').add(this);
-	}
-};
+var cards = require('../src/cards');
+var card = cards.cards.basicGain1;
 var deck = [];
 var i = 0;
-while (i < 8) {
+while (i < 7) {
 	deck.push(card);
 	i++;
 }
+deck.push(cards.cards.createCreature);
 
 /*
 access is:

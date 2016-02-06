@@ -1,5 +1,6 @@
 var lib = require('packs-lib');
 var queue = lib.queue;
+var cards = require('./src/cards');
 
 var mongoose = require('mongoose');
 var services = lib.services;
@@ -17,7 +18,7 @@ function createGame(data, done) {
 		players.push({
 			id: id,
 			name: id,
-			pack: [{name: 'c1'},{name: 'c2'},{name: 'c3'},{name: 'c4'},{name: 'c5'}]
+			pack: cards.generatePack()
 		});
 	});
 	var game = create(players);
@@ -135,6 +136,25 @@ restApp.post('/game/buy', checkAuth, function(req, res) {
 	} catch(e) {
 		return res.sendStatus(400);
 	}
+
+	sendEvents(game, 'game-event');
+
+	return res.send(game.serialize());
+});
+
+restApp.post('/game/attack', checkAuth, function(req, res) {
+	var game = findUserGame(req.body.id);
+	if (!game) { return res.sendStatus(400); }
+
+	//ensure main phase
+	if (game.getActivePhase().name !== 'declare-attackers') {
+		return res.sendStatus(400);
+	}
+
+	//ensure active player
+	if (req.body.id !== game.players[game.activePlayer].id || !req.body.attacks) { return res.sendStatus(400); }
+
+	game.getActivePhase().action(req.body.attacks);
 
 	sendEvents(game, 'game-event');
 

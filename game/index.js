@@ -36,7 +36,6 @@ GameComponents.components.Game.prototype.buy = function(cardId) {
 		this.zones.getZone('player-' + this.activePlayer).getStack('discard').add(copy);
 		this.spendActivePlayerCurrency(card.cost);
 	} else {
-		console.log(toBuy.cost, this.getActivePlayerCurrency());
 		throw Error('Invalid currency to perform buy');
 	}
 	
