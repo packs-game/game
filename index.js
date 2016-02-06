@@ -23,17 +23,17 @@ function createGame(data, done) {
 	var game = create(players);
 	game.start();
 	games['game' + Object.keys(games).length] = game;
-	sendEvents(game);
+	sendEvents(game, 'game-started');
 	done();
 }
 
-function sendEvents(game) {
+function sendEvents(game, event) {
 	var playerIds = [];
 	game.players.forEach(function(p) {
 		playerIds.push(p.id);
 	});
 	var toSend = {
-		type: 'game-started',
+		type: event,
 		to: playerIds,
 		data: {}
 	};
@@ -41,22 +41,47 @@ function sendEvents(game) {
 
 }
 
+function findUserGame(userId) {
+	var toRet = null;
+	for(var game in games) {
+		games[game].players.forEach(function(p) {
+			if (p.id === userId) {
+				toRet = games[game];
+			}
+		});
+	}
+	return toRet;
+}
+
 var createGameQueueParser = queue.listen('game-pairing', createGame);
 
 var restApp = require('./src/rest-server');
 var checkAuth = lib.checkAuth;
 restApp.post('/game', checkAuth, function(req, res) {
-	if (!req.body.id) { res.sendStatus(400); }
-	var toRet = null;
-	for(var game in games) {
-		games[game].players.forEach(function(p) {
-			if (p.id === req.body.id) {
-				toRet = games[game];
-			}
-		});
+	var game = findUserGame(req.body.id);
+	if (!game) { return res.sendStatus(400); }
+	return res.send(game.serialize());
+});
+
+restApp.post('/game/play-card', checkAuth, function(req, res) {
+	if (!req.body.card) { return res.sendStatus(400); }
+	var game = findUserGame(req.body.id);
+	if (!game) { return res.sendStatus(400); }
+
+	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
+
+	if (!game.zones.getZone('player-'+game.activePlayer+':hand').getStack('hand').getCard(req.body.card)) {
+		return res.sendStatus(400);
 	}
-	if (!toRet) { return res.sendStatus(400).send('No game for user'); }
-	return res.send(toRet.serialize());
+
+	game.getActivePhase().action({
+		type: 'play',
+		id: req.body.card
+	});
+
+	sendEvents(game, 'game-event');
+
+	return res.send(game.serialize());
 });
 
 restApp.listen(3005);

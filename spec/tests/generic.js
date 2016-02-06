@@ -124,6 +124,10 @@ describe('generic rules', function() {
 
 	});
 
+	it('should serialize correctly', function() {
+		console.log(game.serializeAs('game'));
+	})
+
 		// 	var fs = require('fs');
 		// fs.writeFileSync('./dump.json', game.serialize());
 

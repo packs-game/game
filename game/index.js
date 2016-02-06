@@ -134,6 +134,17 @@ GameComponents.components.Game.prototype.activeDraw = function() {
 	return true;
 };
 
+GameComponents.components.Game.prototype.serializeAs = function(playerId) {
+	var playerIndex;
+	this.players.forEach(function(p, i){
+		if (p.id === playerId) {
+			playerIndex = i;
+		}
+	});
+	var dump = this.serialize();
+	return dump;
+};
+
 var phases = require('./phases');
 var addZones = require('./zones-stacks');
 
