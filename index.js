@@ -4,9 +4,7 @@ var queue = lib.queue;
 var mongoose = require('mongoose');
 var services = lib.services;
 
-if (mongoose.connection.readyState !== 2) {
-	mongoose.connect(services.mongo);
-}
+mongoose.connect(services.mongo);
 
 var create = require('./game').createGame;
 
