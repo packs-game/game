@@ -68,14 +68,56 @@ restApp.post('/game/play-card', checkAuth, function(req, res) {
 	var game = findUserGame(req.body.id);
 	if (!game) { return res.sendStatus(400); }
 
+	//ensure active player
 	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
 
+	//ensure card is in hand
 	if (!game.zones.getZone('player-'+game.activePlayer+':hand').getStack('hand').getCard(req.body.card)) {
 		return res.sendStatus(400);
 	}
 
 	game.getActivePhase().action({
 		type: 'play',
+		id: req.body.card
+	});
+
+	sendEvents(game, 'game-event');
+
+	return res.send(game.serialize());
+});
+
+restApp.post('/game/pass', checkAuth, function(req, res) {
+	var game = findUserGame(req.body.id);
+	if (!game) { return res.sendStatus(400); }
+
+	//ensure active player
+	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
+
+	//call the pass
+	game.getActivePhase().action(null, true);
+
+	sendEvents(game, 'game-event');
+
+	return res.send(game.serialize());
+});
+
+restApp.post('/game/buy', checkAuth, function(req, res) {
+	var game = findUserGame(req.body.id);
+	if (!game) { return res.sendStatus(400); }
+
+	//ensure active player
+	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
+
+	var inBuy = false;
+	game.zones.getZone('shared:to-buy').getCards().forEach(function(c){
+		if (c.id === req.body.card) { inBuy = true; }
+	});
+	if (!inBuy) {
+		return res.sendStatus(400);
+	}
+
+	game.getActivePhase().action({
+		type: 'buy',
 		id: req.body.card
 	});
 
