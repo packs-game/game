@@ -68,6 +68,11 @@ restApp.post('/game/play-card', checkAuth, function(req, res) {
 	var game = findUserGame(req.body.id);
 	if (!game) { return res.sendStatus(400); }
 
+	//ensure main phase
+	if (game.getActivePhase().name !== 'main' && game.getActivePhase().name !== 'second-main') {
+		return res.sendStatus(400);
+	}
+
 	//ensure active player
 	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
 
@@ -105,8 +110,13 @@ restApp.post('/game/buy', checkAuth, function(req, res) {
 	var game = findUserGame(req.body.id);
 	if (!game) { return res.sendStatus(400); }
 
+	//ensure main phase
+	if (game.getActivePhase().name !== 'main' && game.getActivePhase().name !== 'second-main') {
+		return res.sendStatus(400);
+	}
+
 	//ensure active player
-	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
+	if (req.body.id !== game.players[game.activePlayer].id) {  }
 
 	//ensure its in the buy
 	var inBuy = false;
