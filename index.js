@@ -108,6 +108,7 @@ restApp.post('/game/buy', checkAuth, function(req, res) {
 	//ensure active player
 	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
 
+	//ensure its in the buy
 	var inBuy = false;
 	game.zones.getZone('shared:to-buy').getCards().forEach(function(c){
 		if (c.id === req.body.card) { inBuy = true; }
@@ -116,10 +117,14 @@ restApp.post('/game/buy', checkAuth, function(req, res) {
 		return res.sendStatus(400);
 	}
 
-	game.getActivePhase().action({
-		type: 'buy',
-		id: req.body.card
-	});
+	try {
+		game.getActivePhase().action({
+			type: 'buy',
+			id: req.body.card
+		});
+	} catch(e) {
+		return res.sendStatus(400);
+	}
 
 	sendEvents(game, 'game-event');
 
