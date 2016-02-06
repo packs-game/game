@@ -1,0 +1,18 @@
+{
+  "name": "packs-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "deck-game-components": "git+https://github.com/Tidwell/deckstuff.git",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.2",
+    "packs-lib": "git+https://github.com/packs-game/packs-lib.git"
+  }
+}
