@@ -154,7 +154,30 @@ restApp.post('/game/attack', checkAuth, function(req, res) {
 	//ensure active player
 	if (req.body.id !== game.players[game.activePlayer].id || !req.body.attacks) { return res.sendStatus(400); }
 
-	game.getActivePhase().action(req.body.attacks);
+	try {
+		game.getActivePhase().action(req.body.attacks);
+	} catch(e) {
+		return res.sendStatus(400);
+	}
+
+	sendEvents(game, 'game-event');
+
+	return res.send(game.serialize());
+});
+
+restApp.post('/game/block', checkAuth, function(req, res) {
+	var game = findUserGame(req.body.id);
+	if (!game) { return res.sendStatus(400); }
+
+	//ensure main phase
+	if (game.getActivePhase().name !== 'declare-defenders') {
+		return res.sendStatus(400);
+	}
+
+	//ensure active player
+	if (req.body.id !== game.players[game.activePlayer].id || !req.body.blocks) { return res.sendStatus(400); }
+
+	game.getActivePhase().action(req.body.blocks);
 
 	sendEvents(game, 'game-event');
 

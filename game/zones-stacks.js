@@ -1,5 +1,5 @@
 var cards = require('../src/cards');
-var card = cards.cards.basicGain1;
+var card = cards.cards.brokenCreature;
 var deck = [];
 var i = 0;
 while (i < 7) {
