@@ -1,11 +1,24 @@
 module.exports = function(game) {
 	function mainPhaseAction(opts, pass) {
 		if (opts && opts.type === 'play') {
+			//ensure card is in hand
+			if (!game.zones.getZone('player-'+game.activePlayer+':hand').getStack('hand').getCard(opts.id)) {
+				throw new Error('invalid play');
+			}
 			//allow player to play things from their hand
 			var c = game.zones.getZone('player-' + game.activePlayer + ':hand').getStack('hand').getCard(opts.id, true);
 			c.resolve(game);
 		}
 		if (opts && opts.type === 'buy') {
+			//ensure its in the buy
+			var inBuy = false;
+			game.zones.getZone('shared:to-buy').getCards().forEach(function(c){
+				if (c.id === opts.id) { inBuy = true; }
+			});
+			if (!inBuy) {
+				throw new Error('invalid buy');
+			}
+
 			game.buy(opts.id);
 		}
 		if (opts && opts.type === 'mainframe') {

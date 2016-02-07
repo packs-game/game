@@ -77,15 +77,14 @@ restApp.post('/game/play-card', checkAuth, function(req, res) {
 	//ensure active player
 	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
 
-	//ensure card is in hand
-	if (!game.zones.getZone('player-'+game.activePlayer+':hand').getStack('hand').getCard(req.body.card)) {
+	try {
+		game.getActivePhase().action({
+			type: 'play',
+			id: req.body.card
+		});
+	} catch(e) {
 		return res.sendStatus(400);
 	}
-
-	game.getActivePhase().action({
-		type: 'play',
-		id: req.body.card
-	});
 
 	sendEvents(game, 'game-event');
 
@@ -119,15 +118,6 @@ restApp.post('/game/buy', checkAuth, function(req, res) {
 	//ensure active player
 	if (req.body.id !== game.players[game.activePlayer].id) {  }
 
-	//ensure its in the buy
-	var inBuy = false;
-	game.zones.getZone('shared:to-buy').getCards().forEach(function(c){
-		if (c.id === req.body.card) { inBuy = true; }
-	});
-	if (!inBuy) {
-		return res.sendStatus(400);
-	}
-
 	try {
 		game.getActivePhase().action({
 			type: 'buy',
@@ -146,7 +136,7 @@ restApp.post('/game/attack', checkAuth, function(req, res) {
 	var game = findUserGame(req.body.id);
 	if (!game) { return res.sendStatus(400); }
 
-	//ensure main phase
+	//ensure phase
 	if (game.getActivePhase().name !== 'declare-attackers') {
 		return res.sendStatus(400);
 	}
@@ -169,7 +159,7 @@ restApp.post('/game/block', checkAuth, function(req, res) {
 	var game = findUserGame(req.body.id);
 	if (!game) { return res.sendStatus(400); }
 
-	//ensure main phase
+	//ensure phase
 	if (game.getActivePhase().name !== 'declare-defenders') {
 		return res.sendStatus(400);
 	}
@@ -177,7 +167,11 @@ restApp.post('/game/block', checkAuth, function(req, res) {
 	//ensure active player
 	if (req.body.id !== game.players[game.activePlayer].id || !req.body.blocks) { return res.sendStatus(400); }
 
-	game.getActivePhase().action(req.body.blocks);
+	try {
+		game.getActivePhase().action(req.body.blocks);
+	} catch(e) {
+		return res.sendStatus(400);
+	}
 
 	sendEvents(game, 'game-event');
 

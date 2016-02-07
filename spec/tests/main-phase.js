@@ -24,6 +24,16 @@ describe('main phase', function() {
 		expect(z.getZone('player-' + game.activePlayer).getStack('currency').cards.length).toBe(1);
 		expect(hand.cards.length).toBe(3);
 	});
+	it('should throw if trying to play something invalid', function() {
+		game.start();
+
+		expect(function() {
+			game.getActivePhase().action({
+				type: 'play',
+				id: 'invalid'
+			});
+		}).toThrow(new Error('invalid play'));
+	});
 	it('playing a program should be able to create a bot', function() {
 		game.start();
 
@@ -65,6 +75,16 @@ describe('main phase', function() {
 
 		expect(z.getZone('player-' + game.activePlayer).getStack('discard').cards.length).toBe(1);
 
+	});
+	it('should throw if attempting to buy something invalid', function() {
+		game.start();
+		
+		expect(function() {
+			game.getActivePhase().action({
+				type: 'buy',
+				id: 'notarealcard'
+			});
+		}).toThrow(new Error('invalid buy'));
 	});
 	it('may use an ability on their mainframe', function() {
 		game.start();
