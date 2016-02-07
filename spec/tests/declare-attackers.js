@@ -44,4 +44,13 @@ describe('declare attackers phase', function() {
 		expect(z.getZone('shared:battle').getCards()[0].tapped).toBe(true);
 		expect(z.getZone('shared:battle').getCards()[1].tapped).toBe(true);
 	});
+	it('cant attack with tapped bots', function() {
+		game.start();
+		var creatures = playCreatures(game, z);
+		game.getActivePhase().action(null, true);
+		creatures[0].tapped = true;
+
+		expect(function() {declareAttacks(game, z, creatures)}).toThrow(new Error('invalid attack'));
+		
+	});
 });

@@ -51,4 +51,20 @@ describe('declare defenders phase', function() {
 		game.getActivePhase().action(null, true); //pass attack
 		expect(game.getActivePhase().name).toBe('second-main');
 	});
+
+	it('cant block with tapped creatures', function() {
+		game.start();
+		var creatures = playCreatures(game, z);
+		game.getActivePhase().action(null, true);
+		declareAttacks(game, z, creatures);
+		game.getActivePhase().action(null, true); //pass block
+		game.getActivePhase().action(null, true); //pass 2nd main
+		
+		var creatures2 = playCreatures(game, z);
+		game.getActivePhase().action(null, true);
+		declareAttacks(game, z, creatures2);
+
+
+		expect(function() {declareBlocks(game, z, creatures, creatures2);}).toThrow(new Error('invalid block'));
+	});
 });

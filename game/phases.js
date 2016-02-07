@@ -42,6 +42,7 @@ module.exports = function(game) {
 				attackers.forEach(function(attacker){
 					var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getStack(attacker.id).getCard(attacker.id);
 					if (!c) { invalidAttack = true; }
+					if (c.tapped) { invalidAttack = true; }
 				});
 				if (invalidAttack) { throw new Error('invalid attack'); }
 				//allow player to declare attacks
@@ -66,6 +67,14 @@ module.exports = function(game) {
 		priority: 'inactivePlayer',
 		action: function(defenders, pass) {
 			if (defenders) {
+				var invalidBlock = false;
+				defenders.forEach(function(defender){
+					var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getStack(defender.id).getCard(defender.id);
+					if (!c) { invalidBlock = true; }
+					if (c.tapped) { invalidBlock = true; }
+				});
+				if (invalidBlock) { throw new Error('invalid block'); }
+
 				//allow player to declare blocks
 				defenders.forEach(function(defender){
 					var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getStack(defender.id).getCard(defender.id, true);

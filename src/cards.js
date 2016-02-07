@@ -1,6 +1,6 @@
 var basicGain1 = {
 	cost: 0,
-	name: 'Credit Chip',
+	name: 'BASIC-GAIN-1',
 	resolve: function(game) {
 		//adds itself to the currency stack
 		game.zones.getZone('player-' + game.activePlayer).getStack('currency').add(this);

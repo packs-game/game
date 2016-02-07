@@ -1,12 +1,11 @@
 var cards = require('../src/cards');
-var card = cards.cards.brokenCreature;
+var card = cards.cards.basicGain1;
 var deck = [];
 var i = 0;
-while (i < 7) {
+while (i < 8) {
 	deck.push(card);
 	i++;
 }
-deck.push(cards.cards.createCreature);
 
 /*
 access is:
