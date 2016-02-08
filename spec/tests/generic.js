@@ -41,7 +41,7 @@ describe('generic rules', function() {
 		expect(z.getZone('shared:purchase').getStack('packs').cards.length).toBe(8);
 		expect(z.getZone('player-' + game.activePlayer).getStack('discard').cards.length).toBe(1);
 		expect(z.getZone('shared:purchase').getCards().indexOf(toBuy)).not.toBe(-1);
-		expect(z.getZone('player-' + game.activePlayer).getStack('discard').getCard(toBuy.id)).toBe(undefined);
+		expect(z.getZone('player-' + game.activePlayer).getStack('discard').getCard(toBuy.id)).toBe(null);
 	});
 
 	function setTarget(creature){

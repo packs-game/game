@@ -67,4 +67,41 @@ describe('declare defenders phase', function() {
 
 		expect(function() {declareBlocks(game, z, creatures, creatures2);}).toThrow(new Error('invalid block'));
 	});
+
+	it('should allow for multiblocks', function() {
+		game.start();
+		game.start();
+		game.phases[4].enter = function() {
+			game.cycleActivePhase();
+		}; //disable the damage phase
+
+		var creatures = playCreatures(game, z);
+		game.getActivePhase().action(null, true); //pass main
+		game.getActivePhase().action(null, true); //pass attack
+		game.getActivePhase().action(null, true); //pass 2nd main
+		expect(game.getActivePhase().name).toBe('main');
+		var creatures2 = playCreatures(game, z);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		expect(game.getActivePhase().name).toBe('main');
+		var activePlayer = game.activePlayer;
+		game.getActivePhase().action(null, true); //pass main
+		declareAttacks(game, z, creatures);
+
+		expect(game.activePlayer).not.toEqual(activePlayer);
+		expect(game.getActivePhase().name).toBe('declare-defenders');
+
+		game.getActivePhase().action([{id: creatures2[0].id, target: creatures[0].id}, {id: creatures2[1].id, target: creatures[0].id}]);
+
+		expect(z.getZone('shared:battle').getCards().length).toBe(1);
+		expect(z.getZone('shared:combats').getCards().length).toBe(3);
+		var totalZones = 0;
+		z.getZone('shared:combats').forEach(function(zone) {
+			expect(zone.getCards().length).toBe(3);
+			totalZones++;
+		});
+		expect(totalZones).toBe(1);
+
+	});
 });

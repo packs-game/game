@@ -44,12 +44,14 @@ function sendEvents(game, event) {
 
 function findUserGame(userId) {
 	var toRet = null;
+	function checkUser(p) {
+		if (p.id === userId) {
+			toRet = games[game];
+		}
+	}
+	
 	for(var game in games) {
-		games[game].players.forEach(function(p) {
-			if (p.id === userId) {
-				toRet = games[game];
-			}
-		});
+		games[game].players.forEach(checkUser);
 	}
 	return toRet;
 }

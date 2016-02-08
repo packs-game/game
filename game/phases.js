@@ -90,13 +90,24 @@ module.exports = function(game) {
 
 				//allow player to declare blocks
 				defenders.forEach(function(defender){
-					var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getStack(defender.id).getCard(defender.id, true);
-					c.target = defender.target;
-					var attackingBot = game.zones.getZone('shared:battle').getStack(defender.target).draw();
+					var defendingCard = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getCard(defender.id, true);
+					defendingCard.target = defender.target;
+					
 					var combatZone = game.zones.getZone('shared:combats');
-					var combatSubZone = combatZone.addZone('combat'+Object.keys(combatZone.zones).length);
-					combatSubZone.addStack('attackers').add(attackingBot);
-					combatSubZone.addStack('defenders').add(c);
+					//check if the attacking bot has moved zones already
+					var attackingBot = game.zones.getZone('shared:battle').getCard(defender.target,true);
+
+					var combatSubzone;
+					if (attackingBot) {
+						//create the new combat zone
+						combatSubZone = combatZone.addZone('combat'+Object.keys(combatZone.zones).length);
+						combatSubZone.addStack('attackers').add(attackingBot);
+						combatSubZone.addStack('defenders');
+					} else {
+						combatSubZone = combatZone.getZone(combatZone.getCard(defender.target).zone);
+					}
+					
+					combatSubZone.getStack('defenders').add(defendingCard);
 				});
 				//switch back
 				game.cycleActivePlayer();
