@@ -10,6 +10,7 @@
 var basicGain1 = {
 	tier: 0,
 	cost: 0,
+	type: 'currency',
 	name: 'BASIC-GAIN-1',
 	resolve: function(game) {
 		//adds itself to the currency stack
