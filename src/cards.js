@@ -96,7 +96,7 @@ var pyroclasm = {
 	cost: 7,
 	tier: 3,
 	name: 'Crash',
-	text: 'Deal 2 damage to all bots.',
+	text: 'Deal 2 damage\nto all bots.',
 	resolve: function(game) {
 		game.effects.globalDamage(2);
 		//move to discard
@@ -107,7 +107,7 @@ var miniclasm = {
 	cost: 5,
 	tier: 3,
 	name: 'Jolt',
-	text: 'Deal 1 damage to all bots.',
+	text: 'Deal 1 damage\nto all bots.',
 	resolve: function(game) {
 		game.effects.globalDamage(1);
 		//move to discard
