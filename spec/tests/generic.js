@@ -128,6 +128,13 @@ describe('generic rules', function() {
 		
 	})
 
+	it('global damage should kill everything', function() {
+		game.start();
+		var creatures = playCreatures(game, z);
+		game.effects.globalDamage(2);
+		expect(creatures[0].power).toBe(0);
+	})
+
 		// 	var fs = require('fs');
 		// fs.writeFileSync('./dump.json', game.serialize());
 

@@ -68,6 +68,11 @@ GameComponents.components.Game.prototype.resolveInplayDeaths = function() {
 	}
 };
 
+GameComponents.components.Game.prototype.dealDamage = function(card, amnt) {
+	card.power -= amnt;
+	if (card.power < 0) { card.power = 0; }
+};
+
 GameComponents.components.Game.prototype.resolveCombatDamage = function() {
 	var game = this;
 	var battleZone = game.zones.getZone('shared:battle');
@@ -81,12 +86,10 @@ GameComponents.components.Game.prototype.resolveCombatDamage = function() {
 		});
 		zone.getStack('defenders').cards.forEach(function(c) {
 			defenderTotal += c.power;
-			c.power -= attackerTotal;
-			if (c.power < 0) { c.power = 0; }
+			game.dealDamage(c,attackerTotal);
 		});
 		zone.getStack('attackers').cards.forEach(function(c) {
-			c.power -= defenderTotal;
-			if (c.power < 0) { c.power = 0; }
+			game.dealDamage(c,defenderTotal);
 		});
 	});
 	//resolve damage dealt to node/mainframe stacks
@@ -146,6 +149,7 @@ GameComponents.components.Game.prototype.serializeAs = function(playerId) {
 
 var phases = require('./phases');
 var addZones = require('./zones-stacks');
+var cardEffects = require('./card-effects');
 
 
 function onStart() {
@@ -186,6 +190,7 @@ module.exports = {
 		});
 		phases(game);
 		addZones(game, players);
+		cardEffects(game);
 		return game;
 	}
 };
