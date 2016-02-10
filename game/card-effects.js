@@ -42,9 +42,9 @@ function globalDamage(amnt, game) {
 
 function addEffects(game) {
 	game.effects = {
-		createCreatureToken: function(template) { createCreatureToken(template,game); },
-		discard: function(card) { discard(card,game); },
-		globalDamage: function(amnt) { globalDamage(amnt,game); }
+		createCreatureToken: function(template) { return createCreatureToken(template,game); },
+		discard: function(card) { return discard(card,game); },
+		globalDamage: function(amnt) { return globalDamage(amnt,game); }
 	};
 }
 module.exports = addEffects;

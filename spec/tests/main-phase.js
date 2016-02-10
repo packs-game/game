@@ -1,11 +1,13 @@
 var Game = require('../../game');
 var game;
 var z;
+var cards;
 
 describe('main phase', function() {
 	beforeEach(function() {
 		game = Game.createGame(players);
 		z = game.zones;
+		cards = require('../../src/cards');
 	});
 	
 	//main
@@ -100,5 +102,37 @@ describe('main phase', function() {
 		game.getActivePhase().action(null, true);
 
 		expect(game.getActivePhase().name).toBe('declare-attackers');
+	});
+	it('may play a targeted card', function() {
+		game.start();
+
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+		var c = hand.add(cards.cards.deal1Damage);
+		var token = game.effects.createCreatureToken('micro', game);
+		var inplay = z.getZone('shared:player-' + game.activePlayer + '-inplay');
+
+		expect(inplay.getCards().length).toBe(1);
+
+		game.getActivePhase().action({
+			type: 'play',
+			id: c.id,
+			target: token.id
+		});
+
+		expect(inplay.getCards().length).toBe(0);
+	});
+	it('throws on invalid target', function() {
+		game.start();
+
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+		var c = hand.add(cards.cards.deal1Damage);
+		
+		expect(function() {
+			game.getActivePhase().action({
+				type: 'play',
+				id: c.id,
+				target: 'bad target'
+			});
+		}).toThrow();
 	});
 });

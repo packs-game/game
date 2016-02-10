@@ -2,12 +2,20 @@ module.exports = function(game) {
 	function mainPhaseAction(opts, pass) {
 		if (opts && opts.type === 'play') {
 			//ensure card is in hand
-			if (!game.zones.getZone('player-'+game.activePlayer+':hand').getStack('hand').getCard(opts.id)) {
+			var card = game.zones.getZone('player-'+game.activePlayer+':hand').getStack('hand').getCard(opts.id);
+			if (!card) {
 				throw new Error('invalid play');
+			}
+			//check a target if there is one
+			var target;
+			if (card.targets) {
+				target = card.targets(game, opts.target);
+				if (!target) { throw new Error('invalid target'); }
 			}
 			//allow player to play things from their hand
 			var c = game.zones.getZone('player-' + game.activePlayer + ':hand').getStack('hand').getCard(opts.id, true);
-			c.resolve(game);
+
+			c.resolve(game, target);
 		}
 		if (opts && opts.type === 'buy') {
 			//ensure its in the buy

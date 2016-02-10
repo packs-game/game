@@ -29,6 +29,23 @@ var createCreature = {
 		game.effects.discard(this);
 	}
 };
+var deal1Damage = {
+	cost: 1,
+	tier: 1,
+	name: 'Terminate',
+	text: 'Deal 1 damage to a bot.',
+	targets: function(game, targetId) {
+		var card = game.zones.getZone('shared').getCard(targetId);
+		return card;
+	},
+	targetPattern: 'zones.zones.shared',
+	resolve: function(game, target){
+		game.dealDamage(target,1);
+		game.resolveInplayDeaths();
+		game.effects.discard(this);
+	}
+
+};
 var createCreature = {
 	cost: 1,
 	tier: 1,
@@ -142,6 +159,7 @@ var brokenCreature = {
 var allCards = [
 	basicGain1,
 	createCreature,
+	deal1Damage,
 	createPower2Creature,
 	createPower3Creature,
 	create21PowerCreature,
@@ -171,6 +189,7 @@ module.exports = {
 	cards: {
 		basicGain1: basicGain1,
 		createCreature: createCreature,
-		brokenCreature: brokenCreature
+		brokenCreature: brokenCreature,
+		deal1Damage: deal1Damage
 	}
 };
