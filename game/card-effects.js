@@ -18,6 +18,7 @@ var tokenTemplates = {
 };
 function createCreatureToken(template, game) {
 	var creature = new game.components.Card(tokenTemplates[template], game.events);
+	creature.type = 'token';
 	game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(creature.id).add(creature);
 	return creature;
 }

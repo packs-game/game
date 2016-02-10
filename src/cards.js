@@ -1,3 +1,12 @@
+//draw x
+//discard hand and draw same #
+//deal x to target (2 cost)
+//deal y to target (3 cost)
+//deal x to mainframe
+
+//permanents?
+//bot-types - colors
+
 var basicGain1 = {
 	tier: 0,
 	cost: 0,
