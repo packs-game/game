@@ -1,9 +1,4 @@
-//draw x
-//discard hand and draw same #
-//deal x to mainframe
-
-//permanents?
-//bot-types - colors
+//deal x to player
 
 var basicGain1 = {
 	tier: 0,
@@ -44,6 +39,22 @@ var deal1Damage = {
 	}
 
 };
+var givePlus1 = {
+	cost: 1,
+	tier: 1,
+	name: 'Enhance',
+	text: 'Give a bot you\ncontrol +1 power.',
+	targets: function(game, targetId) {
+		var card = game.zones.getZone('shared:player-'+game.activePlayer+'-inplay').getCard(targetId);
+		return card;
+	},
+	targetZonePattern: 'player-(self)-inplay',
+	resolve: function(game, target){
+		target.power += 1;
+		game.effects.discard(this);
+	}
+
+};
 var createCreature = {
 	cost: 1,
 	tier: 1,
@@ -76,6 +87,18 @@ var createPower3Creature = {
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('bot');
+		//move to discard
+		game.effects.discard(this);
+	}
+};
+var draw2 = {
+	cost: 2,
+	tier: 2,
+	name: 'Dig',
+	text: 'Draw 2 cards.',
+	resolve: function(game) {
+		game.activeDraw();
+		game.activeDraw();
 		//move to discard
 		game.effects.discard(this);
 	}
@@ -158,11 +181,12 @@ var allCards = [
 	basicGain1,
 	createCreature,
 	deal1Damage,
+	givePlus1,
 	createPower2Creature,
 	createPower3Creature,
 	create21PowerCreature,
+	draw2,
 	create22PowerCreature,
-	brokenCreature,
 	miniclasm,
 	pyroclasm,
 	boombot
@@ -179,7 +203,7 @@ function randomTier(tier) {
 }
 
 function generatePack() {
-	return [randomTier(1), randomTier(1), randomTier(2), randomTier(2), randomTier(3)];
+	return [draw2, draw2, randomTier(2), randomTier(2), randomTier(3)];
 }
 
 module.exports = {
@@ -188,6 +212,7 @@ module.exports = {
 		basicGain1: basicGain1,
 		createCreature: createCreature,
 		brokenCreature: brokenCreature,
-		deal1Damage: deal1Damage
+		deal1Damage: deal1Damage,
+		givePlus1: givePlus1
 	}
 };
