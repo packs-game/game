@@ -113,7 +113,7 @@ var draw2 = {
 var dome2 = {
 	cost: 2,
 	tier: 2,
-	name: 'Dig',
+	name: 'Dome',
 	type: 'action',
 	text: 'Deal 2 damage\nto the opponent.',
 	resolve: function(game) {
