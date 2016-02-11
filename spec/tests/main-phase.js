@@ -50,7 +50,7 @@ describe('main phase', function() {
 
 		expect(z.getZone('shared:player-' + game.activePlayer + '-inplay').getCards().length).toBe(1);
 		expect(hand.cards.length).toBe(4);
-		expect(z.getZone('player-' + game.activePlayer).getStack('discard').cards.length).toBe(1);
+		expect(z.getZone('player-' + game.activePlayer).getStack('turn-discard').cards.length).toBe(1);
 
 	});
 	it('a bot should have an owner id', function() {

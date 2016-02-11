@@ -61,6 +61,7 @@ function addZones(game, players) {
 		});
 		playerDeckZone.addStack('deck');
 
+		playerZones.addStack('turn-discard');
 		playerZones.addStack('discard');
 		playerZones.addStack('currency');
 		playerZones.addStack('mainframe');

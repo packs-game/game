@@ -181,6 +181,11 @@ module.exports = function(game) {
 		name: 'draw',
 		priority: false,
 		action: function() {
+			//add the turns discard to the pile
+			var stack = game.zones.getZone('player-'+game.activePlayer).getStack('turn-discard');
+			game.zones.getZone('player-'+game.activePlayer).getStack('discard').add(stack.getCards());
+			stack.empty();
+			
 			//make the active player draw to 4
 			var hand = game.zones.getZone('player-'+game.activePlayer+':hand').getStack('hand');
 			while (hand.cards.length < 4) {

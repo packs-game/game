@@ -23,7 +23,7 @@ function createCreatureToken(template, game) {
 	return creature;
 }
 function discard(card, game) {
-	game.zones.getZone('player-' + game.activePlayer).getStack('discard').add(card);
+	game.zones.getZone('player-' + game.activePlayer).getStack('turn-discard').add(card);
 }
 
 function globalDamage(amnt, game) {

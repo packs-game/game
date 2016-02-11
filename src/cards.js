@@ -203,7 +203,7 @@ function randomTier(tier) {
 }
 
 function generatePack() {
-	return [draw2, draw2, randomTier(2), randomTier(2), randomTier(3)];
+	return [randomTier(1), randomTier(1), randomTier(2), randomTier(2), randomTier(3)];
 }
 
 module.exports = {

@@ -9,7 +9,7 @@ beforeEach(function() {
 			}, game.events);
 			game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(creature.id).add(creature);
 			//move to discard
-			game.zones.getZone('player-' + game.activePlayer).getStack('discard').add(this);
+			game.effects.discard(this);
 		}
 	};
 	players = [{
