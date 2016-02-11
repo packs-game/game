@@ -50,7 +50,14 @@ GameComponents.components.Game.prototype.resolveInplayDeaths = function() {
 				self.zones.getZone('shared:player-'+i+'-inplay').getStack(c.stack).getCard(c.id, true);
 			}
 		});
+	});
 
+	self.checkGameOver();
+};
+
+GameComponents.components.Game.prototype.checkGameOver = function() {
+	var self = this;
+	self.players.forEach(function(p,i){
 		//check loss
 		var mainframe = self.zones.getZone('player-'+i).getStack('mainframe');
 		if (mainframe.damage >= self.PLAYERHEALTH) {

@@ -110,6 +110,21 @@ var draw2 = {
 		game.effects.discard(this);
 	}
 };
+var dome2 = {
+	cost: 2,
+	tier: 2,
+	name: 'Dig',
+	type: 'action',
+	text: 'Deal 2 damage\nto the opponent.',
+	resolve: function(game) {
+		var inactivePlayer = game.activePlayer ? 0 : 1;
+		var target = game.zones.getZone('player-'+inactivePlayer).getStack('mainframe');
+		target.damage += 2;
+		//move to discard
+		game.checkGameOver();
+		game.effects.discard(this);
+	}
+};
 var create21PowerCreature = {
 	cost: 2,
 	tier: 2,
@@ -199,6 +214,7 @@ var allCards = [
 	createPower3Creature,
 	create21PowerCreature,
 	draw2,
+	dome2,
 	create22PowerCreature,
 	miniclasm,
 	pyroclasm,
