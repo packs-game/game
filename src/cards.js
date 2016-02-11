@@ -130,7 +130,7 @@ var create21PowerCreature = {
 	tier: 2,
 	name: 'DoubleMicro.exe',
 	type: 'program',
-	text: 'Deploy two 1-power bots.',
+	text: 'Deploy two\n1-power bots.',
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('micro');
@@ -144,7 +144,7 @@ var create22PowerCreature = {
 	tier: 3,
 	name: 'DoubleMini.exe',
 	type: 'program',
-	text: 'Deploy two 2-power bots.',
+	text: 'Deploy two\n2-power bots.',
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('mini');
