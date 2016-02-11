@@ -180,5 +180,7 @@ restApp.post('/game/block', checkAuth, function(req, res) {
 
 	return res.send(game.serialize());
 });
-
+restApp.get('/cards', function(req,res){
+	res.send(cards.allCards);
+});
 restApp.listen(3005);
