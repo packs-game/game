@@ -82,7 +82,8 @@ restApp.post('/game/play-card', checkAuth, function(req, res) {
 	try {
 		game.getActivePhase().action({
 			type: 'play',
-			id: req.body.card
+			id: req.body.card,
+			target: req.body.target || null
 		});
 	} catch(e) {
 		return res.sendStatus(400);

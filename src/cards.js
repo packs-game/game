@@ -1,7 +1,5 @@
 //draw x
 //discard hand and draw same #
-//deal x to target (2 cost)
-//deal y to target (3 cost)
 //deal x to mainframe
 
 //permanents?
@@ -33,12 +31,12 @@ var deal1Damage = {
 	cost: 1,
 	tier: 1,
 	name: 'Terminate',
-	text: 'Deal 1 damage to a bot.',
+	text: 'Deal 1 damage\nto an enemy bot.',
 	targets: function(game, targetId) {
-		var card = game.zones.getZone('shared').getCard(targetId);
+		var card = game.zones.getZone('shared:player-'+(game.activePlayer?0:1)+'-inplay').getCard(targetId);
 		return card;
 	},
-	targetPattern: 'zones.zones.shared',
+	targetZonePattern: 'player-(opponent)-inplay',
 	resolve: function(game, target){
 		game.dealDamage(target,1);
 		game.resolveInplayDeaths();

@@ -108,10 +108,16 @@ describe('main phase', function() {
 
 		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
 		var c = hand.add(cards.cards.deal1Damage);
+		game.getActivePhase().action(null,true);
+		game.getActivePhase().action(null,true);
+		game.getActivePhase().action(null,true);
 		var token = game.effects.createCreatureToken('micro', game);
 		var inplay = z.getZone('shared:player-' + game.activePlayer + '-inplay');
 
 		expect(inplay.getCards().length).toBe(1);
+		game.getActivePhase().action(null,true);
+		game.getActivePhase().action(null,true);
+		game.getActivePhase().action(null,true);
 
 		game.getActivePhase().action({
 			type: 'play',

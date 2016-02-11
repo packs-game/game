@@ -9,6 +9,7 @@ module.exports = function(game) {
 			//check a target if there is one
 			var target;
 			if (card.targets) {
+				if (!opts.target) { throw new Error('no target'); }
 				target = card.targets(game, opts.target);
 				if (!target) { throw new Error('invalid target'); }
 			}
