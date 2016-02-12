@@ -78,6 +78,28 @@ describe('main phase', function() {
 		expect(z.getZone('player-' + game.activePlayer).getStack('discard').cards.length).toBe(1);
 
 	});
+	it('should reduce the # of copies when buy happens', function() {
+		game.start();
+		var toBuy = z.getZone('shared:to-buy').getStack('buy1').cards[0];
+		expect(toBuy.copies).toBe(4);
+		game.getActivePhase().action({
+			type: 'buy',
+			id: toBuy.id
+		});
+
+		expect(toBuy.copies).toBe(3);
+
+	});
+	it('should remove the card when buy happens and copies is at 1', function() {
+		game.start();
+		var toBuy = z.getZone('shared:to-buy').getStack('buy1').cards[0];
+		toBuy.copies = 1;
+		game.getActivePhase().action({
+			type: 'buy',
+			id: toBuy.id
+		});
+		expect(z.getCard(toBuy.id)).toBe(null);
+	});
 	it('should throw if attempting to buy something invalid', function() {
 		game.start();
 		

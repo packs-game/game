@@ -77,6 +77,9 @@ function addZones(game, players) {
 		//construct the players deck
 		playerDeckZone.getStack('deck').add(deck);
 
+		p.pack.forEach(function(c){
+			c.copies = game.copyMap[c.tier];
+		});
 		sharedZones.getZone('purchase').getStack('packs').add(p.pack);
 	});
 }

@@ -15,28 +15,38 @@ beforeEach(function() {
 	players = [{
 		name: 'p1',
 		pack: [{
-			name: 'c1'
+			name: 'c1',
+			tier: 1
 		}, {
-			name: 'c2'
+			name: 'c2',
+			tier: 1
 		}, {
-			name: 'c3'
+			name: 'c3',
+			tier: 1
 		}, {
-			name: 'c4'
+			name: 'c4',
+			tier: 1
 		}, {
-			name: 'c5'
+			name: 'c5',
+			tier: 1
 		}]
 	}, {
 		name: 'p2',
 		pack: [{
-			name: 'c6'
+			name: 'c6',
+			tier: 1
 		}, {
-			name: 'c7'
+			name: 'c7',
+			tier: 1
 		}, {
-			name: 'c8'
+			name: 'c8',
+			tier: 1
 		}, {
-			name: 'c9'
+			name: 'c9',
+			tier: 1
 		}, {
-			name: 'c10'
+			name: 'c10',
+			tier: 1
 		}]
 	}];
 

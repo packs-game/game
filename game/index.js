@@ -32,7 +32,11 @@ GameComponents.components.Game.prototype.buy = function(cardId) {
 	if (toBuy.cost <= this.getActivePlayerCurrency()) {
 		var card = this.zones.getZone('shared:to-buy').getStack(toBuy.stack).getCard(toBuy.id, true);
 		var copy = new this.components.Card(card, this.events);
-		this.zones.getZone('shared:purchase').getStack('packs').add(card, 'random');
+		
+		card.copies -= 1;
+		if (card.copies > 0) {
+			this.zones.getZone('shared:purchase').getStack('packs').add(card, 'random');
+		}
 		this.zones.getZone('player-' + this.activePlayer).getStack('discard').add(copy);
 		this.spendActivePlayerCurrency(card.cost);
 	} else {
@@ -153,6 +157,9 @@ GameComponents.components.Game.prototype.serializeAs = function(playerId) {
 	var dump = this.serialize();
 	return dump;
 };
+
+//map of tier # to how many copies show up in the buy
+GameComponents.components.Game.prototype.copyMap = [null,4,3,2];
 
 var phases = require('./phases');
 var addZones = require('./zones-stacks');
