@@ -26,6 +26,24 @@ describe('EOT and Draw Phases', function() {
 		expect(z.getZone('shared:to-buy').getCards().length).toBe(3);
 	});
 
+	it('shouldnt break if cards have been removed', function() {
+		game.start();
+		var toBuy = z.getZone('shared:to-buy').getStack('buy1').cards[0];
+
+		game.getActivePhase().action({
+			type: 'buy',
+			id: toBuy.id
+		});
+		z.getZone('shared:purchase').getStack('packs').cards = [];
+
+		game.getActivePhase().action(null, true); //pass main
+		game.getActivePhase().action(null, true); //combat
+		game.getActivePhase().action(null, true); //second main
+		game.getActivePhase().action(null, true); //second main
+
+		expect(z.getZone('shared:to-buy').getCards().length).toBe(2);
+	});
+
 
 	it('should move stuff from the turn-discard into the discard', function() {
 		game.start();

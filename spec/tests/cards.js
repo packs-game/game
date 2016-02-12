@@ -30,7 +30,7 @@ describe('main phase', function() {
 		game.start();
 
 		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
-		var mainframe = z.getZone('player-' + game.activePlayer).getStack('mainframe')
+		var mainframe = z.getZone('player-' + game.activePlayer).getStack('mainframe');
 		mainframe.damage = 5;
 		var c = hand.add(cards.cards.salve);
 

@@ -52,6 +52,10 @@ GameComponents.components.Game.prototype.resolveInplayDeaths = function() {
 			if (c.power === 0) {
 				//kill it
 				self.zones.getZone('shared:player-'+i+'-inplay').getStack(c.stack).getCard(c.id, true);
+				//TODO move other stuff in the stack?
+				
+				//remove its in play stack
+				self.zones.getZone('shared:player-'+i+'-inplay').removeStack(c.stack);
 			}
 		});
 	});

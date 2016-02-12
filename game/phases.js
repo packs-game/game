@@ -162,7 +162,10 @@ module.exports = function(game) {
 		priority: 'activePlayer',
 		action: mainPhaseAction,
 		enter: function() {
-		
+			//cleanup any zones left over from combat
+			game.zones.getZone('shared:combats').removeZones();
+			game.zones.getZone('shared:battle').removeStacks();
+
 		}
 	};
 	var endOfTurn = {
@@ -172,7 +175,10 @@ module.exports = function(game) {
 			//Replace any bought cards
 			game.zones.getZone('shared:to-buy').forEachStack(function(stack){
 				if (stack.cards.length === 0) {
-					stack.add(game.zones.getZone('shared:purchase').getStack('packs').draw());
+					var card = game.zones.getZone('shared:purchase').getStack('packs').draw();
+					if (card) {
+						stack.add(card);
+					}
 				}
 			});
 			game.cycleActivePhase();
@@ -193,6 +199,7 @@ module.exports = function(game) {
 				var canDraw = game.activeDraw();
 				if (!canDraw) { break; }
 			}
+
 			game.cycleActivePhase();
 		}
 	};

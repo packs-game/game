@@ -11,9 +11,13 @@ describe('declare defenders phase', function() {
 	// declare-defenders
 	it('inactive player declares blocks and attacker and blocker are moved into a SHARED:COMBATS:COMBAT# zone in an ATTACKING & DEFENDING', function() {
 		game.start();
+		//disable the damage phase
 		game.phases[4].enter = function() {
 			game.cycleActivePhase();
-		}; //disable the damage phase
+		};
+		game.phases[5].enter = function() {
+			//disable cleanup
+		};
 
 		var creatures = playCreatures(game, z);
 		game.getActivePhase().action(null, true); //pass main
@@ -74,6 +78,8 @@ describe('declare defenders phase', function() {
 		game.phases[4].enter = function() {
 			game.cycleActivePhase();
 		}; //disable the damage phase
+		game.phases[5].enter = function() {
+		}; //disable the zone and stack cleanup
 
 		var creatures = playCreatures(game, z);
 		game.getActivePhase().action(null, true); //pass main

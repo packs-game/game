@@ -197,6 +197,8 @@ var miniclasm = {
 		game.effects.discard(this);
 	}
 };
+//semi-symetrical draw effect
+
 var brokenCreature = {
 	cost: 1,
 	name: 'Broken',
