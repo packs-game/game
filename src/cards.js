@@ -58,19 +58,6 @@ var givePlus1 = {
 	}
 
 };
-var createCreature = {
-	cost: 1,
-	tier: 1,
-	name: 'MicroBot.exe',
-	type: 'program',
-	text: 'Deploy a 1-power bot.',
-	resolve: function(game) {
-		//create the creature
-		game.effects.createCreatureToken('micro');
-		//move to discard
-		game.effects.discard(this);
-	}
-};
 var createPower2Creature = {
 	cost: 2,
 	tier: 1,
@@ -80,6 +67,24 @@ var createPower2Creature = {
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('mini');
+		//move to discard
+		game.effects.discard(this);
+	}
+};
+
+
+
+/*TIER 2*/
+var salve = {
+	cost: 2,
+	tier: 2,
+	name: 'Repair',
+	type: 'action',
+	text: 'Repair 2 damage\nto your mainframe.',
+	resolve: function(game) {
+		var target = game.zones.getZone('player-'+game.activePlayer).getStack('mainframe');
+		target.damage -= 2;
+		if (target.damage < 0) { target.damage = 0; }
 		//move to discard
 		game.effects.discard(this);
 	}
@@ -125,9 +130,12 @@ var dome2 = {
 		game.effects.discard(this);
 	}
 };
+
+
+/*TIER 3*/
 var create21PowerCreature = {
-	cost: 2,
-	tier: 2,
+	cost: 3,
+	tier: 3,
 	name: 'DoubleMicro.exe',
 	type: 'program',
 	text: 'Deploy two\n1-power bots.',
@@ -211,10 +219,13 @@ var allCards = [
 	deal1Damage,
 	givePlus1,
 	createPower2Creature,
+	salve,
+
 	createPower3Creature,
-	create21PowerCreature,
 	draw2,
 	dome2,
+
+	create21PowerCreature,
 	create22PowerCreature,
 	miniclasm,
 	pyroclasm,
@@ -243,6 +254,7 @@ module.exports = {
 		createCreature: createCreature,
 		brokenCreature: brokenCreature,
 		deal1Damage: deal1Damage,
-		givePlus1: givePlus1
+		givePlus1: givePlus1,
+		salve: salve
 	}
 };
