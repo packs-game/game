@@ -201,13 +201,15 @@ var miniclasm = {
 
 var brokenCreature = {
 	cost: 1,
+	tier: 3,
 	name: 'Broken',
 	type: 'program',
 	resolve: function(game) {
 		//create the creature
 		var creature = new game.components.Card({
 			name: 'broken',
-			power: 20
+			power: 20,
+			type: 'token'
 		}, game.events);
 		game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(creature.id).add(creature);
 		//move to discard
