@@ -234,18 +234,36 @@ var allCards = [
 	boombot
 ];
 
-function randomTier(tier) {
+function randomTier(tier, excludeNames) {
 	var tierCards = [];
 	allCards.forEach(function(c){
-		if (c.tier === tier) {
+		if (c.tier === tier && excludeNames.indexOf(c.name) === -1) {
 			tierCards.push(c);
 		}
 	});
 	return tierCards[Math.floor(Math.random()*tierCards.length)];
 }
 
-function generatePack() {
-	return [randomTier(1), randomTier(1), randomTier(2), randomTier(2), randomTier(3)];
+function generatePack(excludeNames) {
+	excludeNames = excludeNames || [];
+	var c1 = randomTier(1,excludeNames);
+	excludeNames.push(c1.name);
+	var c2 = randomTier(1,excludeNames);
+	excludeNames.push(c2.name);
+	var c3 = randomTier(2,excludeNames);
+	excludeNames.push(c3.name);
+	var c4 = randomTier(2,excludeNames);
+	excludeNames.push(c4.name);
+	var c5 = randomTier(3,excludeNames);
+
+	return [
+		c1,
+		c2,
+		c3,
+		c4,
+		c5
+	];
+
 }
 
 module.exports = {

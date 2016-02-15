@@ -41,4 +41,26 @@ describe('main phase', function() {
 
 		expect(mainframe.damage).toBe(3);
 	});
+
+	it('should not return dupes on a pack', function() {
+		var p1 = cards.generatePack();
+		var names = []; p1.forEach(function(c){ names.push(c.name); });
+		var p2 = cards.generatePack(names);
+		var players = [{
+			name: 'p1',
+			pack: p1
+		}, {
+			name: 'p2',
+			pack: p2
+		}];
+		var game = Game.createGame(players);
+		var c = game.zones.getZone('shared:purchase').getStack('packs').getCards();
+		var cardNames = [];
+		expect(function() {
+			c.forEach(function(c) {
+				if (cardNames.indexOf(c.name) !== -1) { throw new Error('found dupes in packs'); }
+				cardNames.push(c.name);
+			});
+		}).not.toThrow();
+	});
 });

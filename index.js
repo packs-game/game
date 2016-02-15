@@ -14,11 +14,16 @@ var games = {};
 function createGame(data, done) {
 	var players = [];
 
+	var cardNames = [];
 	data.players.forEach(function(id) {
+		var pack = cards.generatePack(cardNames);
+		pack.forEach(function(c) {
+			cardNames.push(c.name);
+		});
 		players.push({
 			id: id,
 			name: id,
-			pack: cards.generatePack()
+			pack: pack
 		});
 	});
 	var game = create(players);
