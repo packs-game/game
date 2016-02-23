@@ -75,6 +75,9 @@ function addZones(game, players) {
 
 		//construct the players deck
 		var deckCopy = deck.slice(0); //otherwise it starts mucking up things
+		deckCopy.forEach(function(c) { //set the owner for the new cards
+			c.owner = i;
+		});
 		var cards = playerDeckZone.getStack('deck').add(deckCopy);
 		p.pack.forEach(function(c){
 			c.copies = game.copyMap[c.tier];

@@ -49,6 +49,11 @@ describe('Game setup', function() {
 		expect(cards[0].name).toBe('BASIC-GAIN-1');
 	});
 
+	it('those cards should have owners', function() {
+		var cards = z.getZone('player-1:deck').getCards();
+		expect(cards[0].owner).toBe(1);
+	});
+
 	it('Each player opens a PACK of 5 CARDS and shuffles them together forming a 10 card PURCHASE', function() {
 		//check the populate
 		var c = z.getZone('shared:purchase').getCards();
