@@ -151,6 +151,10 @@ GameComponents.components.Game.prototype.activeDraw = function() {
 	return true;
 };
 
+GameComponents.components.Game.prototype.getInactivePlayer = function() {
+	return this.activePlayer ? 0 : 1;
+};
+
 GameComponents.components.Game.prototype.serializeAs = function(playerId) {
 	var playerIndex;
 	this.players.forEach(function(p, i){

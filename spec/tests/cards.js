@@ -63,4 +63,38 @@ describe('main phase', function() {
 			});
 		}).not.toThrow();
 	});
+
+
+
+	it('should not muck with other cards when things are played', function() {
+		game.start();
+
+		playHand(game,z);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		expect(game.turn).toBe(2);
+
+		z.getZone('player-'+game.getInactivePlayer() + ':hand').getStack('hand').getCards().forEach(function(c){
+			expect(c.previousZone).toBe('deck');
+			expect(c.zone).toBe('hand');
+		});
+	});
+
+	it('should fire when zone or stack are changed', function() {
+		game.start();
+		fireTotal = 0;
+		function change(card) {
+			fireTotal++;
+		}
+     	game.events.on('card:zoneChange',change)
+     	game.events.on('card:stackChange',change)
+
+		playHand(game,z);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		expect(game.turn).toBe(2);
+		expect(fireTotal).toBe(16);
+	});
 });

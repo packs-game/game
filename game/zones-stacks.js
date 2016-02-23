@@ -6,7 +6,6 @@ while (i < 8) {
 	deck.push(card);
 	i++;
 }
-
 /*
 access is:
 	public - all players can see all cards in all stacks
@@ -75,8 +74,8 @@ function addZones(game, players) {
 		});
 
 		//construct the players deck
-		playerDeckZone.getStack('deck').add(deck);
-
+		var deckCopy = deck.slice(0); //otherwise it starts mucking up things
+		var cards = playerDeckZone.getStack('deck').add(deckCopy);
 		p.pack.forEach(function(c){
 			c.copies = game.copyMap[c.tier];
 		});
