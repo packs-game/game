@@ -5,7 +5,8 @@ beforeEach(function() {
 			//create the creature
 			var creature = new game.components.Card({
 				name: '1powercreature',
-				power: 1
+				power: 1,
+				toughness: 2,
 			}, game.events);
 			game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(creature.id).add(creature);
 			//move to discard

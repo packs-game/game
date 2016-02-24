@@ -11,19 +11,23 @@ function addEffects(game) {
 var tokenTemplates = {
 	micro: {
 		name: 'micro',
-		power: 1
+		power: 1,
+		toughness: 1
 	},
 	mini: {
 		name: 'mini',
-		power: 2
+		power: 2,
+		toughness: 2
 	},
 	bot: {
 		name: 'bot',
-		power: 3
+		power: 3,
+		toughness: 3
 	},
 	boom: {
 		name: 'boom',
-		power: 4
+		power: 4,
+		toughness: 4
 	}
 };
 function createCreatureToken(template, game) {
@@ -57,6 +61,7 @@ function globalEnhance(amnt,game) {
 	var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getCards();
 	c.forEach(function(card){
 		card.power +=1;
+		card.toughness +=1;
 	});
 }
 module.exports = addEffects;

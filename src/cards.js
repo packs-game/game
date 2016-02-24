@@ -15,7 +15,7 @@ var createCreature = {
 	tier: 1,
 	name: 'MicroBot.exe',
 	type: 'program',
-	text: 'Deploy a 1-power bot.',
+	text: 'Deploy a 1/1 bot.',
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('micro');
@@ -46,7 +46,7 @@ var givePlus1 = {
 	tier: 1,
 	name: 'Enhance',
 	type: 'action',
-	text: 'Give a bot you\ncontrol +1 power.',
+	text: 'Give a bot you\ncontrol +1/+1.',
 	targets: function(game, targetId) {
 		var card = game.zones.getZone('shared:player-'+game.activePlayer+'-inplay').getCard(targetId);
 		return card;
@@ -54,6 +54,7 @@ var givePlus1 = {
 	targetZonePattern: 'player-(self)-inplay',
 	resolve: function(game, target){
 		target.power += 1;
+		target.toughness += 1;
 		game.effects.discard(this);
 	}
 
@@ -63,7 +64,7 @@ var createPower2Creature = {
 	tier: 1,
 	name: 'MiniBot.exe',
 	type: 'program',
-	text: 'Deploy a 2-power bot.',
+	text: 'Deploy a 2/2 bot.',
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('mini');
@@ -94,7 +95,7 @@ var createPower3Creature = {
 	tier: 2,
 	name: 'Bot.exe',
 	type: 'program',
-	text: 'Deploy a 3-power bot.',
+	text: 'Deploy a 3/3 bot.',
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('bot');
@@ -138,7 +139,7 @@ var create21PowerCreature = {
 	tier: 3,
 	name: 'DoubleMicro.exe',
 	type: 'program',
-	text: 'Deploy two\n1-power bots.',
+	text: 'Deploy two\n1/1 bots.',
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('micro');
@@ -152,7 +153,7 @@ var create22PowerCreature = {
 	tier: 3,
 	name: 'DoubleMini.exe',
 	type: 'program',
-	text: 'Deploy two\n2-power bots.',
+	text: 'Deploy two\n2/2 bots.',
 	resolve: function(game) {
 		//create the creature
 		game.effects.createCreatureToken('mini');
@@ -166,7 +167,7 @@ var boombot = {
 	tier: 3,
 	name: 'Boombot.exe',
 	type: 'program',
-	text: 'Deploy a 4-power bot.',
+	text: 'Deploy a 4/4 bot.',
 	resolve: function(game) {
 		game.effects.createCreatureToken('boom');
 		//move to discard
@@ -201,7 +202,7 @@ var anthem = {
 	tier: 3,
 	name: 'Empower',
 	type: 'action',
-	text: 'Give all your\nbots +2 power.\nDelete this.',
+	text: 'Give all your\nbots +2/+2.\nDelete this.',
 	resolve: function(game) {
 		game.effects.globalEnhance(2);
 		game.effects.deleteCard(this);
@@ -219,6 +220,7 @@ var brokenCreature = {
 		var creature = new game.components.Card({
 			name: 'broken',
 			power: 20,
+			toughness: 20,
 			type: 'token'
 		}, game.events);
 		game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(creature.id).add(creature);

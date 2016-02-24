@@ -49,7 +49,7 @@ GameComponents.components.Game.prototype.resolveInplayDeaths = function() {
 	self.players.forEach(function(p,i){
 		var inPlay = self.zones.getZone('shared:player-'+i+'-inplay').getCards();
 		inPlay.forEach(function(c){
-			if (c.power === 0) {
+			if (c.toughness === 0) {
 				//kill it
 				self.zones.getZone('shared:player-'+i+'-inplay').getStack(c.stack).getCard(c.id, true);
 				//TODO move other stuff in the stack?
@@ -84,8 +84,8 @@ GameComponents.components.Game.prototype.checkGameOver = function() {
 };
 
 GameComponents.components.Game.prototype.dealDamage = function(card, amnt) {
-	card.power -= amnt;
-	if (card.power < 0) { card.power = 0; }
+	card.toughness -= amnt;
+	if (card.toughness < 0) { card.toughness = 0; }
 };
 
 GameComponents.components.Game.prototype.resolveCombatDamage = function() {

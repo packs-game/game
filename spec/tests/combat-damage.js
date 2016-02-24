@@ -29,8 +29,8 @@ describe('combat damage phase', function() {
 		declareBlocks(game, z, creatures2, creatures);
 
 		expect(game.getActivePhase().name).toBe('second-main');
-		expect(z.getZone('shared:player-' + (game.activePlayer ? 0 : 1) + '-inplay').getCards()[0].power).toBe(1);
-		expect(z.getZone('shared:player-' + (game.activePlayer) + '-inplay').getCards()[0].power).toBe(1);
+		expect(z.getZone('shared:player-' + (game.activePlayer ? 0 : 1) + '-inplay').getCards()[0].toughness).toBe(1);
+		expect(z.getZone('shared:player-' + (game.activePlayer) + '-inplay').getCards()[0].toughness).toBe(1);
 	});
 
 	it('bots deal damage to nodes/mainframe if unblocked', function() {
@@ -45,11 +45,11 @@ describe('combat damage phase', function() {
 		expect(game.zones.getZone('player-' + (game.activePlayer ? 0 : 1)).getStack('node2').damage).toBe(1);
 	});
 
-	it('game.resolveInplayDeaths() should destroy all 0 power bots in play', function() {
+	it('game.resolveInplayDeaths() should destroy all 0 toughness bots in play', function() {
 		game.start();
 		var creatures = playCreatures(game, z);
 		expect(z.getZone('shared:player-' + game.activePlayer + '-inplay').getCards().length).toBe(2);
-		creatures[0].power = 0;
+		creatures[0].toughness = 0;
 		game.resolveInplayDeaths();
 		expect(z.getZone('shared:player-' + game.activePlayer + '-inplay').getCards().length).toBe(1);
 	});

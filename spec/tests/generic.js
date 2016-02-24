@@ -124,7 +124,7 @@ describe('generic rules', function() {
 		game.start();
 		var creatures = playCreatures(game, z);
 		game.effects.globalDamage(2);
-		expect(creatures[0].power).toBe(0);
+		expect(creatures[0].toughness).toBe(0);
 	})
 
 	it('should not muck with other cards when things are played', function() {
