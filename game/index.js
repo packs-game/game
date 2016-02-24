@@ -167,7 +167,7 @@ GameComponents.components.Game.prototype.serializeAs = function(playerId) {
 };
 
 //map of tier # to how many copies show up in the buy
-GameComponents.components.Game.prototype.copyMap = [null,4,3,2];
+GameComponents.components.Game.prototype.copyMap = [null,4,3,2,1];
 
 var phases = require('./phases');
 var addZones = require('./zones-stacks');

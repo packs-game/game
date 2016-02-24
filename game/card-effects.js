@@ -4,6 +4,8 @@ function addEffects(game) {
 		discard: function(card) { return discard(card,game); },
 		globalDamage: function(amnt) { return globalDamage(amnt,game); },
 		globalEnhance: function(amnt) { return globalEnhance(amnt,game); },
+		globalToughnessEnhance: function(amnt) { return globalToughnessEnhance(amnt,game); },
+		globalPowerEnhance: function(amnt) { return globalPowerEnhance(amnt,game); },
 		deleteCard: function(card) { return deleteCard(card,game); }
 	};
 }
@@ -14,13 +16,58 @@ var tokenTemplates = {
 		power: 1,
 		toughness: 1
 	},
-	mini: {
-		name: 'mini',
-		power: 2,
+	microdefender: {
+		name: 'microdefender',
+		power: 0,
 		toughness: 2
+	},
+	miniaggro: {
+		name: 'miniaggro',
+		power: 2,
+		toughness: 1
+	},
+	minidefender: {
+		name: 'minidefender',
+		power: 1,
+		toughness: 2
+	},
+	backbot: {
+		name: 'butbot',
+		power: 1,
+		toughness: 3
 	},
 	bot: {
 		name: 'bot',
+		power: 2,
+		toughness: 2
+	},
+	attackbot: {
+		name: 'attackbot',
+		power: 3,
+		toughness: 1
+	},
+	bot41: {
+		name: 'bot41',
+		power: 4,
+		toughness: 1
+	},
+	bot32: {
+		name: 'bot32',
+		power: 3,
+		toughness: 2
+	},
+	bot23: {
+		name: 'bot23',
+		power: 2,
+		toughness: 3
+	},
+	bot14: {
+		name: 'bot14',
+		power: 1,
+		toughness: 4
+	},
+	bang: {
+		name: 'bang',
 		power: 3,
 		toughness: 3
 	},
@@ -28,6 +75,11 @@ var tokenTemplates = {
 		name: 'boom',
 		power: 4,
 		toughness: 4
+	},
+	fivefive: {
+		name: 'fiver',
+		power: 5,
+		toughness: 5
 	}
 };
 function createCreatureToken(template, game) {
@@ -60,8 +112,20 @@ function globalDamage(amnt, game) {
 function globalEnhance(amnt,game) {
 	var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getCards();
 	c.forEach(function(card){
-		card.power +=1;
-		card.toughness +=1;
+		card.power +=amnt;
+		card.toughness +=amnt;
+	});
+}
+function globalToughnessEnhance(amnt, game) {
+	var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getCards();
+	c.forEach(function(card){
+		card.toughness +=amnt;
+	});
+}
+function globalPowerEnhance(amnt, game) {
+	var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getCards();
+	c.forEach(function(card){
+		card.power +=amnt;
 	});
 }
 module.exports = addEffects;
