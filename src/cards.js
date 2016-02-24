@@ -173,6 +173,18 @@ var boombot = {
 		game.effects.discard(this);
 	}
 };
+var miniclasm = {
+	cost: 5,
+	tier: 3,
+	name: 'Jolt',
+	type: 'action',
+	text: 'Deal 1 damage\nto all bots.',
+	resolve: function(game) {
+		game.effects.globalDamage(1);
+		//move to discard
+		game.effects.discard(this);
+	}
+};
 var pyroclasm = {
 	cost: 7,
 	tier: 3,
@@ -185,14 +197,14 @@ var pyroclasm = {
 		game.effects.discard(this);
 	}
 };
-var miniclasm = {
+var anthem = {
 	cost: 5,
 	tier: 3,
-	name: 'Jolt',
+	name: 'Empower',
 	type: 'action',
-	text: 'Deal 1 damage\nto all bots.',
+	text: 'Give all your\nbots +1 power.',
 	resolve: function(game) {
-		game.effects.globalDamage(1);
+		game.effects.globalEnhance(1);
 		//move to discard
 		game.effects.discard(this);
 	}
@@ -231,9 +243,10 @@ var allCards = [
 
 	create21PowerCreature,
 	create22PowerCreature,
+	boombot,
 	miniclasm,
 	pyroclasm,
-	boombot
+	anthem
 ];
 
 function randomTier(tier, excludeNames) {

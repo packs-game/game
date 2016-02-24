@@ -1,3 +1,12 @@
+function addEffects(game) {
+	game.effects = {
+		createCreatureToken: function(template) { return createCreatureToken(template,game); },
+		discard: function(card) { return discard(card,game); },
+		globalDamage: function(amnt) { return globalDamage(amnt,game); },
+		globalEnhance: function(amnt) { return globalEnhance(amnt,game); }
+	};
+}
+
 var tokenTemplates = {
 	micro: {
 		name: 'micro',
@@ -40,12 +49,10 @@ function globalDamage(amnt, game) {
 	
 	game.resolveInplayDeaths();
 }
-
-function addEffects(game) {
-	game.effects = {
-		createCreatureToken: function(template) { return createCreatureToken(template,game); },
-		discard: function(card) { return discard(card,game); },
-		globalDamage: function(amnt) { return globalDamage(amnt,game); }
-	};
+function globalEnhance(amnt,game) {
+	var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getCards();
+	c.forEach(function(card){
+		card.power +=1;
+	});
 }
 module.exports = addEffects;

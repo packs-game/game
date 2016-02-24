@@ -120,14 +120,6 @@ describe('generic rules', function() {
 		expect(z.getZone('player-'+game.activePlayer).getStack('currency').cards.length).toBe(8);
 	});
 
-	it('cards in the to-buy stacks have a MAXBUYS # and when bought reduced by one.  hits zero, removed from buys', function() {
-
-	});
-
-	it('should serialize correctly', function() {
-		
-	})
-
 	it('global damage should kill everything', function() {
 		game.start();
 		var creatures = playCreatures(game, z);
@@ -135,18 +127,42 @@ describe('generic rules', function() {
 		expect(creatures[0].power).toBe(0);
 	})
 
-		// 	var fs = require('fs');
-		// fs.writeFileSync('./dump.json', game.serialize());
+	it('should not muck with other cards when things are played', function() {
+		game.start();
+
+		playHand(game, z);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		expect(game.turn).toBe(2);
+
+		z.getZone('player-' + game.getInactivePlayer() + ':hand').getStack('hand').getCards().forEach(function(c) {
+			expect(c.previousZone).toBe('deck');
+			expect(c.zone).toBe('hand');
+		});
+	});
+
+	it('should fire when zone or stack are changed', function() {
+		game.start();
+		fireTotal = 0;
+
+		function change(card) {
+			fireTotal++;
+		}
+		game.events.on('card:zoneChange', change)
+		game.events.on('card:stackChange', change)
+
+		playHand(game, z);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		game.getActivePhase().action(null, true);
+		expect(game.turn).toBe(2);
+		expect(fireTotal).toBe(16);
+	});
+
 
 });
 
-//test multi-blocks
 //fix to respect priority on phase declaration
-//tapped cant attack or block
-//summoning sickness
-
-//error detection on all action() entrypoints
-
-//support assigning damage?
 // Node is destroyed if reduced to 0 health?
 // Mainframe cannot be attacked until Nodes are destroyed?
