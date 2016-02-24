@@ -174,7 +174,7 @@ var boombot = {
 	}
 };
 var miniclasm = {
-	cost: 5,
+	cost: 6,
 	tier: 3,
 	name: 'Jolt',
 	type: 'action',
@@ -190,11 +190,10 @@ var pyroclasm = {
 	tier: 3,
 	name: 'Crash',
 	type: 'action',
-	text: 'Deal 2 damage\nto all bots.',
+	text: 'Deal 3 damage\nto all bots. Delete this.',
 	resolve: function(game) {
-		game.effects.globalDamage(2);
-		//move to discard
-		game.effects.discard(this);
+		game.effects.globalDamage(3);
+		game.effects.deleteCard(this);
 	}
 };
 var anthem = {
@@ -202,11 +201,10 @@ var anthem = {
 	tier: 3,
 	name: 'Empower',
 	type: 'action',
-	text: 'Give all your\nbots +1 power.',
+	text: 'Give all your\nbots +2 power.\nDelete this.',
 	resolve: function(game) {
-		game.effects.globalEnhance(1);
-		//move to discard
-		game.effects.discard(this);
+		game.effects.globalEnhance(2);
+		game.effects.deleteCard(this);
 	}
 };
 //semi-symetrical draw effect

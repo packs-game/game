@@ -3,7 +3,8 @@ function addEffects(game) {
 		createCreatureToken: function(template) { return createCreatureToken(template,game); },
 		discard: function(card) { return discard(card,game); },
 		globalDamage: function(amnt) { return globalDamage(amnt,game); },
-		globalEnhance: function(amnt) { return globalEnhance(amnt,game); }
+		globalEnhance: function(amnt) { return globalEnhance(amnt,game); },
+		deleteCard: function(card) { return deleteCard(card,game); }
 	};
 }
 
@@ -34,6 +35,9 @@ function createCreatureToken(template, game) {
 }
 function discard(card, game) {
 	game.zones.getZone('player-' + game.activePlayer).getStack('turn-discard').add(card);
+}
+function deleteCard(card, game) {
+	game.zones.getZone('deleted').getStack('deleted').add(card);
 }
 
 function globalDamage(amnt, game) {

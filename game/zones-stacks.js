@@ -15,10 +15,12 @@ access is:
 
 function addZones(game, players) {
 	if (!players || !Array.isArray(players)) { console.log(players); throw new Error('no players');}
+	game.zones.addZone('deleted').addStack('deleted');
 	var sharedZones = game.zones.addZone('shared', {
 		access: 'public',
 		owner: 'game'
 	});
+
 	sharedZones.addZone('battle', {
 		access: 'public',
 		owner: 'game'
