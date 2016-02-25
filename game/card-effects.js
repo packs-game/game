@@ -99,6 +99,7 @@ function moveCurrency(card,game) {
 }
 
 function putIntoPlay(card,game) {
+	card.summoningSick = true;
 	game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(card.id).add(card);
 }
 function createCreatureToken(template, game) {

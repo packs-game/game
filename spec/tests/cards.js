@@ -120,4 +120,16 @@ describe('cards', function() {
 		});
 		expect(c.enterPlayTS).toBeTruthy();
 	});
+
+	it('AI should be summoning sick too', function() {
+		game.start();
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+		var c = hand.add(cards.cards.einstein);
+		
+		game.getActivePhase().action({
+			type: 'play',
+			id: c.id
+		});
+		expect(c.summoningSick).toBeTruthy();
+	});
 });
