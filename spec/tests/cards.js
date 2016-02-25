@@ -16,8 +16,7 @@ describe('cards', function() {
 
 		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
 		var c = hand.add(cards.cards.givePlus1);
-		var token = game.effects.createCreatureToken('micro', game);
-
+		var token = game.effects.createCreatureToken('micro');
 		game.getActivePhase().action({
 			type: 'play',
 			id: c.id,
@@ -25,6 +24,7 @@ describe('cards', function() {
 		});
 
 		expect(z.getCard(token.id).power).toBe(2);
+		expect(z.getCard(token.id).toughness).toBe(2);
 	});
 	it('should heal 2', function() {
 		game.start();

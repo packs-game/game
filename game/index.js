@@ -235,7 +235,7 @@ module.exports = {
 		});
 		phases(game);
 		addZones(game, players, cardPool);
-		cardEffects(game);
+		cardEffects(game, cardPool);
 		return game;
 	}
 };

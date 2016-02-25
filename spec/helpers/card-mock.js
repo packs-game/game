@@ -10,13 +10,13 @@ module.exports = [{
 		name: "moveCurrency"
 	}]
 }, {
-	name: "MicroBot.exe",
+	__v: 2,
+	_id: "56ce80e72cfa66b604b7de0c",
 	cost: 2,
+	name: "MicroBot.exe",
+	text: "Deploy a 1/1 bot.",
 	tier: 1,
 	type: "program",
-	text: "Deploy a 1/1 bot.",
-	_id: "56ce80e72cfa66b604b7de0c",
-	__v: 0,
 	abilities: [{
 		name: "createCreatureToken",
 		value: "micro"
@@ -25,13 +25,13 @@ module.exports = [{
 		value: "self"
 	}]
 }, {
-	name: "MicroDefender.exe",
+	__v: 2,
+	_id: "56ce81242cfa66b604b7de0d",
 	cost: 2,
+	name: "MicroDefender.exe",
+	text: "Deploy a 0/2 bot.",
 	tier: 1,
 	type: "program",
-	text: "Deploy a 0/2 bot.",
-	_id: "56ce81242cfa66b604b7de0d",
-	__v: 0,
 	abilities: [{
 		name: "createCreatureToken",
 		value: "microdefender"
@@ -172,19 +172,19 @@ module.exports = [{
 		value: "self"
 	}]
 }, {
-	name: "BackBot.exe",
+	__v: 1,
+	_id: "56cea781c49fd0de1248033f",
 	cost: 4,
+	name: "BackBot.exe",
+	text: "Deploy a 1/3 bot.",
 	tier: 1,
 	type: "program",
-	text: "Deploy a 1/3 bot.",
-	_id: "56cea781c49fd0de1248033f",
-	__v: 0,
 	abilities: [{
-		name: "createCreatureToken",
-		value: "backbot"
+		value: "butbot",
+		name: "createCreatureToken"
 	}, {
-		name: "discard",
-		value: "self"
+		value: "self",
+		name: "discard"
 	}]
 }, {
 	name: "32Bot.exe",
@@ -274,19 +274,19 @@ module.exports = [{
 		value: "self"
 	}]
 }, {
-	name: "Fiver.exe",
+	__v: 1,
+	_id: "56cea951c49fd0de12480346",
 	cost: 8,
+	name: "Fiver.exe",
+	text: "Deploy a 5/5 bot.",
 	tier: 3,
 	type: "program",
-	text: "Deploy a 5/5 bot.",
-	_id: "56cea951c49fd0de12480346",
-	__v: 0,
 	abilities: [{
-		name: "createCreatureToken",
-		value: "fivefive"
+		value: "fiver",
+		name: "createCreatureToken"
 	}, {
-		name: "discard",
-		value: "self"
+		value: "self",
+		name: "discard"
 	}]
 }, {
 	__v: 1,
@@ -420,4 +420,139 @@ module.exports = [{
 		name: "discard",
 		value: "self"
 	}]
+}, {
+	__v: 0,
+	_id: "56ceba08c97363f4195e02ac",
+	cost: 8,
+	img: "vlad.png",
+	name: "Vlad the Impaler",
+	power: 5,
+	text: "etb: deal 2 damage to all other units.",
+	tier: 4,
+	toughness: 8,
+	type: "ai",
+	abilities: [{
+		name: "globalDamage",
+		value: "2"
+	}, {
+		name: "putIntoPlay",
+		value: "self"
+	}]
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67b1",
+	name: "minidefender",
+	power: 1,
+	tier: 0,
+	toughness: 2,
+	type: "token",
+	abilities: []
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67b0",
+	name: "miniaggro",
+	power: 2,
+	tier: 0,
+	toughness: 1,
+	type: "token",
+	abilities: []
+}, {
+	__v: 1,
+	_id: "56cec8b0bc9a7a6f0d6e67b4",
+	name: "attackbot",
+	power: 3,
+	tier: 0,
+	toughness: 1,
+	type: "token",
+	abilities: []
+}, {
+	__v: 1,
+	_id: "56cec8b0bc9a7a6f0d6e67b9",
+	name: "bang",
+	power: 3,
+	tier: 0,
+	toughness: 3,
+	type: "token",
+	abilities: []
+}, {
+	__v: 1,
+	_id: "56cec8b0bc9a7a6f0d6e67ba",
+	name: "boom",
+	power: 4,
+	tier: 0,
+	toughness: 4,
+	type: "token",
+	abilities: []
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67b2",
+	name: "butbot",
+	power: 1,
+	tier: 0,
+	toughness: 3,
+	type: "token",
+	abilities: []
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67b3",
+	name: "bot",
+	power: 2,
+	tier: 0,
+	toughness: 2,
+	type: "token",
+	abilities: []
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67b5",
+	name: "bot41",
+	power: 4,
+	tier: 0,
+	toughness: 1,
+	type: "token",
+	abilities: []
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67b6",
+	name: "bot32",
+	power: 3,
+	tier: 0,
+	toughness: 2,
+	type: "token",
+	abilities: []
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67b7",
+	name: "bot23",
+	power: 2,
+	tier: 0,
+	toughness: 3,
+	type: "token",
+	abilities: []
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67b8",
+	name: "bot14",
+	power: 1,
+	tier: 0,
+	toughness: 4,
+	type: "token",
+	abilities: []
+}, {
+	_id: "56cec8b0bc9a7a6f0d6e67bb",
+	name: "fiver",
+	power: 5,
+	tier: 0,
+	toughness: 5,
+	type: "token",
+	abilities: []
+}, {
+	name: "micro",
+	tier: 0,
+	type: "token",
+	power: 1,
+	toughness: 1,
+	_id: "56cecb8afb6c33b51de6111c",
+	__v: 0,
+	abilities: []
+}, {
+	name: "microdefender",
+	tier: 0,
+	type: "token",
+	power: 0,
+	toughness: 2,
+	_id: "56cecf00fb6c33b51de6111d",
+	__v: 0,
+	abilities: []
 }];
