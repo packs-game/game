@@ -3,6 +3,8 @@ function addEffects(game, cardPool) {
 	cards = cardPool;
 	game.effects = {
 		createCreatureToken: function(template) { return createCreatureToken(template,game); },
+		addCardToCurrency: function(template) { return addCardToCurrency(template, game); },
+		addCardToDiscard: function(template) { return addCardToDiscard(template, game); },
 		
 		globalEnhance: function(amnt) { return globalEnhance(amnt,game); },
 		globalToughnessEnhance: function(amnt) { return globalToughnessEnhance(amnt,game); },
@@ -22,7 +24,16 @@ function addEffects(game, cardPool) {
 		deleteCard: function(card) { return deleteCard(card,game); }
 	};
 }
-
+function addCardToZone(template,zone,stack,game) {
+	var card = new game.components.Card(cards.allCardsMap[template], game.events);
+	game.zones.getZone(zone).getStack(stack).add(card);
+}
+function addCardToCurrency(template, game) {
+	addCardToZone(template, 'player-' + game.activePlayer, 'currency', game);
+}
+function addCardToDiscard(template, game) {
+	addCardToZone(template, 'player-' + game.activePlayer, 'discard', game);
+}
 function moveCurrency(card,game) {
 	game.zones.getZone('player-' + game.activePlayer).getStack('currency').add(card);
 }

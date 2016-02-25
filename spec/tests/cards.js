@@ -132,4 +132,15 @@ describe('cards', function() {
 		});
 		expect(c.summoningSick).toBeTruthy();
 	});
+
+	it('should add a new card to a currency zone', function() {
+		game.start();
+		game.effects.addCardToCurrency('BASIC-GAIN-1');
+		expect(z.getZone('player-' +game.activePlayer).getStack('currency').getCards().length).toBe(1);
+	})
+	it('should add a new card to a discard zone', function() {
+		game.start();
+		game.effects.addCardToDiscard('BASIC-GAIN-1');
+		expect(z.getZone('player-' +game.activePlayer).getStack('discard').getCards().length).toBe(1);
+	})
 });
