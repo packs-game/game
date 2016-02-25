@@ -203,6 +203,15 @@ function onStart() {
 	self.events.on('card:created', function(card){
 		card.owner = self.activePlayer;
 	});
+
+	//count the order things enter play.
+	//this should be a timestamp but ordering those is stupid.
+	var inPlayCounter = 2;
+	self.events.on('card:zoneChange', function(card){
+		if ((card.previousZone === 'hand' || !card.previousZone) && card.zone.indexOf('-inplay') > -1) {
+			card.enterPlayTS = inPlayCounter++;
+		}
+	});
 }
 
 module.exports = {

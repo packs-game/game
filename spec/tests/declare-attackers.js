@@ -53,4 +53,17 @@ describe('declare attackers phase', function() {
 		expect(function() {declareAttacks(game, z, creatures)}).toThrow(new Error('invalid attack'));
 		
 	});
+
+	it('combat shouldnt change a timestamp', function() {
+		game.start();
+		var creatures = playCreatures(game, z);
+		var origts = game.zones.getZone('shared:player-'+game.activePlayer+'-inplay').getCards()[0].enterPlayTS;
+		game.getActivePhase().action(null, true);
+
+		declareAttacks(game, z, creatures);
+
+		game.getActivePhase().action(null,true);
+		var ts = game.zones.getZone('shared:player-'+game.activePlayer+'-inplay').getCards()[0].enterPlayTS;
+		expect(origts).toBe(ts);
+	});
 });

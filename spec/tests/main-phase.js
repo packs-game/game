@@ -66,6 +66,19 @@ describe('main phase', function() {
 		});
 		expect(z.getZone('shared:player-' + game.activePlayer + '-inplay').getCards()[0].owner).toBe(game.activePlayer);
 	});
+	it('a bot should have a timestamp', function() {
+		game.start();
+
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+
+		var card = hand.add(createCreatureCard);
+
+		game.getActivePhase().action({
+			type: 'play',
+			id: card.id
+		});
+		expect(z.getZone('shared:player-' + game.activePlayer + '-inplay').getCards()[0].enterPlayTS).toBeTruthy();
+	});
 	it('may buy a card from the buy stack', function() {
 		game.start();
 		var toBuy = z.getZone('shared:to-buy').getStack('buy1').cards[0];
@@ -162,5 +175,18 @@ describe('main phase', function() {
 				target: 'bad target'
 			});
 		}).toThrow();
+	});
+
+	it('should add a timestamp to an AI', function() {
+		game.start();
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+		var c = hand.add(cards.cards.einstein);
+		
+		
+		game.getActivePhase().action({
+			type: 'play',
+			id: c.id
+		});
+		expect(c.enterPlayTS).toBeTruthy();
 	});
 });

@@ -380,7 +380,7 @@ var brokenCreature = {
 
 //AI
 var einstein = {
-	cost: 7,
+	cost: 6,
 	tier: 4,
 	name: 'Albert Einstein',
 	type: 'ai',
@@ -393,17 +393,17 @@ var einstein = {
 		game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(this.id).add(this);
 	}
 };
-var teller = {
+var khan = {
 	cost: 7,
 	tier: 4,
-	name: 'Edward Teller',
+	name: 'Genghis Khan',
 	type: 'ai',
 	power: 2,
 	toughness: 8,
-	text: 'etb: Your bots\ngain +2/+0',
-	img: 'teller.png',
+	text: 'etb: Your bots\ngain +3/+0',
+	img: 'khan.png',
 	resolve: function(game) {
-		game.effects.globalPowerEnhance(2);
+		game.effects.globalPowerEnhance(3);
 		game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(this.id).add(this);
 	}
 };
@@ -443,7 +443,7 @@ var allCards = [
 
 //AI
 	einstein,
-	teller
+	khan
 ];
 
 function randomTier(tier, excludeNames) {
@@ -487,6 +487,7 @@ module.exports = {
 		brokenCreature: brokenCreature,
 		deal1Damage: deal1Damage,
 		givePlus1: givePlus1,
-		salve: salve
+		salve: salve,
+		einstein: einstein
 	}
 };
