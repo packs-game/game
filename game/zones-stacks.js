@@ -1,11 +1,3 @@
-var cards = require('../src/cards');
-var card = cards.cards.basicGain1;
-var deck = [];
-var i = 0;
-while (i < 8) {
-	deck.push(card);
-	i++;
-}
 /*
 access is:
 	public - all players can see all cards in all stacks
@@ -13,7 +5,7 @@ access is:
 	hidden - only can be counted
  */
 
-function addZones(game, players) {
+function addZones(game, players, cards) {
 	if (!players || !Array.isArray(players)) { console.log(players); throw new Error('no players');}
 	game.zones.addZone('deleted').addStack('deleted');
 	var sharedZones = game.zones.addZone('shared', {
@@ -42,6 +34,15 @@ function addZones(game, players) {
 	toBuyZone.addStack('buy1');
 	toBuyZone.addStack('buy2');
 	toBuyZone.addStack('buy3');
+
+	var deck = [];
+	
+	var card = cards.allCardsMap['BASIC-GAIN-1'];
+	var i = 0;
+	while (i < 8) {
+		deck.push(card);
+		i++;
+	}
 
 	players.forEach(function(p, i) {
 		if (!p.pack) { console.log(p); throw new Error('no pack provided for player'); }

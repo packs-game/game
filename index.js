@@ -1,6 +1,6 @@
 var lib = require('packs-lib');
 var queue = lib.queue;
-var cards = require('./src/cards');
+var cards = require('./src/card-loader');
 
 var mongoose = require('mongoose');
 var services = lib.services;
@@ -10,6 +10,11 @@ mongoose.connect(services.mongo);
 var create = require('./game').createGame;
 
 var games = {};
+
+cards.onLoad(function() {
+	//dont start listening for the games till after we know we have the card data
+	var createGameQueueParser = queue.listen('game-pairing', createGame);
+});
 
 function createGame(data, done) {
 	var players = [];
@@ -26,7 +31,7 @@ function createGame(data, done) {
 			pack: pack
 		});
 	});
-	var game = create(players);
+	var game = create(players, cards);
 	game.start();
 	games['game' + Object.keys(games).length] = game;
 	sendEvents(game, 'game-started');
@@ -61,7 +66,6 @@ function findUserGame(userId) {
 	return toRet;
 }
 
-var createGameQueueParser = queue.listen('game-pairing', createGame);
 
 var restApp = require('./src/rest-server');
 var checkAuth = lib.checkAuth;

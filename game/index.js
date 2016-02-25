@@ -4,6 +4,20 @@ GameComponents.components.Stack.prototype.damage = 0;
 GameComponents.components.Card.prototype.tapped = false;
 GameComponents.components.Card.prototype.owner = null;
 
+GameComponents.components.Card.prototype.resolve = function(game, target) {
+	var self = this;
+	self.abilities.forEach(function(ability){
+		var value = ability.value;
+		if (value === 'self') {
+			value = self;
+		}
+		if (typeof value === 'string' && !isNaN(Number(value))) {
+			value = Number(value);
+		}
+		game.effects[ability.name](value, target);
+	});
+};
+
 GameComponents.components.Game.prototype.PLAYERHEALTH = 20;
 
 GameComponents.components.Game.prototype.getActivePlayerCurrency = function() {
@@ -215,12 +229,12 @@ function onStart() {
 }
 
 module.exports = {
-	createGame: function(players) {
+	createGame: function(players, cardPool) {
 		var game = new GameComponents.createGame({
 			onStart: onStart
 		});
 		phases(game);
-		addZones(game, players);
+		addZones(game, players, cardPool);
 		cardEffects(game);
 		return game;
 	}

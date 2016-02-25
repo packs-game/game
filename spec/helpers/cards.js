@@ -18,10 +18,7 @@ var basicGain1 = {
 	cost: 0,
 	type: 'currency',
 	name: 'BASIC-GAIN-1',
-	resolve: function(game) {
-		//adds itself to the currency stack
-		game.zones.getZone('player-' + game.activePlayer).getStack('currency').add(this);
-	}
+	abilities: [{name: 'moveCurrency', value: 'self'}]
 };
 var createCreature = {
 	cost: 2,
@@ -390,7 +387,7 @@ var einstein = {
 	img: 'einstein.png',
 	resolve: function(game) {
 		game.effects.globalToughnessEnhance(2);
-		game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(this.id).add(this);
+		game.effects.putIntoPlay(this);
 	}
 };
 var khan = {
@@ -404,7 +401,7 @@ var khan = {
 	img: 'khan.png',
 	resolve: function(game) {
 		game.effects.globalPowerEnhance(3);
-		game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(this.id).add(this);
+		game.effects.putIntoPlay(this);
 	}
 };
 
@@ -477,9 +474,13 @@ function generatePack(excludeNames) {
 	];
 
 }
-
+var allCardsMap = {};
+allCards.forEach(function(c){
+	allCardsMap[c.name] = c;
+});
 module.exports = {
 	allCards: allCards,
+	allCardsMap: allCardsMap,
 	generatePack: generatePack,
 	cards: {
 		basicGain1: basicGain1,
@@ -489,5 +490,6 @@ module.exports = {
 		givePlus1: givePlus1,
 		salve: salve,
 		einstein: einstein
-	}
+	},
+	onLoad: function(fn) { fn(); }
 };

@@ -4,7 +4,7 @@ var z;
 
 describe('EOT and Draw Phases', function() {
 	beforeEach(function() {
-		game = Game.createGame(players);
+		game = Game.createGame(players, require('../helpers/cards'));
 		z = game.zones;
 	});
 

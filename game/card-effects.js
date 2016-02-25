@@ -1,6 +1,8 @@
 function addEffects(game) {
 	game.effects = {
+		moveCurrency: function(card) { return moveCurrency(card, game); },
 		createCreatureToken: function(template) { return createCreatureToken(template,game); },
+		putIntoPlay: function(card) { return putIntoPlay(card,game); },
 		discard: function(card) { return discard(card,game); },
 		globalDamage: function(amnt) { return globalDamage(amnt,game); },
 		globalEnhance: function(amnt) { return globalEnhance(amnt,game); },
@@ -82,6 +84,14 @@ var tokenTemplates = {
 		toughness: 5
 	}
 };
+
+function moveCurrency(card,game) {
+	game.zones.getZone('player-' + game.activePlayer).getStack('currency').add(card);
+}
+
+function putIntoPlay(card,game) {
+	game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(card.id).add(card);
+}
 function createCreatureToken(template, game) {
 	var creature = new game.components.Card(tokenTemplates[template], game.events);
 	creature.type = 'token';

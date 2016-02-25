@@ -4,7 +4,7 @@ var z;
 
 describe('start of turn phase', function() {
 	beforeEach(function() {
-		game = Game.createGame(players);
+		game = Game.createGame(players, require('../helpers/cards'));
 		z = game.zones;
 	});
 	it('start-of-turn', function() {

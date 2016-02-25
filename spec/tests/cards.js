@@ -3,11 +3,11 @@ var game;
 var z;
 var cards;
 
-describe('main phase', function() {
+describe('cards', function() {
 	beforeEach(function() {
-		game = Game.createGame(players);
+		game = Game.createGame(players, require('../helpers/cards'));
 		z = game.zones;
-		cards = require('../../src/cards');
+		cards = require('../helpers/cards');
 	});
 
 	//main
@@ -56,7 +56,7 @@ describe('main phase', function() {
 			name: 'p2',
 			pack: p2
 		}];
-		var game = Game.createGame(players);
+		var game = Game.createGame(players, cards);
 		var c = game.zones.getZone('shared:purchase').getStack('packs').getCards();
 		var cardNames = [];
 		expect(function() {
@@ -67,5 +67,57 @@ describe('main phase', function() {
 				cardNames.push(c.name);
 			});
 		}).not.toThrow();
+	});
+
+	it('may play a targeted card', function() {
+		game.start();
+
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+		var c = hand.add(cards.cards.deal1Damage);
+		game.getActivePhase().action(null,true);
+		game.getActivePhase().action(null,true);
+		game.getActivePhase().action(null,true);
+		var token = game.effects.createCreatureToken('micro', game);
+		var inplay = z.getZone('shared:player-' + game.activePlayer + '-inplay');
+
+		expect(inplay.getCards().length).toBe(1);
+		game.getActivePhase().action(null,true);
+		game.getActivePhase().action(null,true);
+		game.getActivePhase().action(null,true);
+
+		game.getActivePhase().action({
+			type: 'play',
+			id: c.id,
+			target: token.id
+		});
+
+		expect(inplay.getCards().length).toBe(0);
+	});
+	it('throws on invalid target', function() {
+		game.start();
+
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+		var c = hand.add(cards.cards.deal1Damage);
+		
+		expect(function() {
+			game.getActivePhase().action({
+				type: 'play',
+				id: c.id,
+				target: 'bad target'
+			});
+		}).toThrow();
+	});
+
+	it('should add a timestamp to an AI', function() {
+		game.start();
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+		var c = hand.add(cards.cards.einstein);
+		
+		
+		game.getActivePhase().action({
+			type: 'play',
+			id: c.id
+		});
+		expect(c.enterPlayTS).toBeTruthy();
 	});
 });

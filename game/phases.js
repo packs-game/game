@@ -15,7 +15,6 @@ module.exports = function(game) {
 			}
 			//allow player to play things from their hand
 			var c = game.zones.getZone('player-' + game.activePlayer + ':hand').getStack('hand').getCard(opts.id, true);
-
 			c.resolve(game, target);
 		}
 		if (opts && opts.type === 'buy') {
