@@ -1,13 +1,22 @@
 function addEffects(game) {
 	game.effects = {
-		moveCurrency: function(card) { return moveCurrency(card, game); },
 		createCreatureToken: function(template) { return createCreatureToken(template,game); },
-		putIntoPlay: function(card) { return putIntoPlay(card,game); },
-		discard: function(card) { return discard(card,game); },
-		globalDamage: function(amnt) { return globalDamage(amnt,game); },
+		
 		globalEnhance: function(amnt) { return globalEnhance(amnt,game); },
 		globalToughnessEnhance: function(amnt) { return globalToughnessEnhance(amnt,game); },
 		globalPowerEnhance: function(amnt) { return globalPowerEnhance(amnt,game); },
+		buff: function(amnt,target) { return buff(amnt,target,game); },
+		
+		globalDamage: function(amnt) { return globalDamage(amnt,game); },
+		targetedDamage: function(amnt,target) { return targetedDamage(amnt,target,game); },
+		
+		activeDraw: function() { return game.activeDraw(); },
+		heal: function(amnt) { return heal(amnt,game); },
+		dome: function(amnt) { return dome(amnt,game); },
+		
+		moveCurrency: function(card) { return moveCurrency(card, game); },
+		putIntoPlay: function(card) { return putIntoPlay(card,game); },
+		discard: function(card) { return discard(card,game); },
 		deleteCard: function(card) { return deleteCard(card,game); }
 	};
 }
@@ -106,6 +115,22 @@ function deleteCard(card, game) {
 	game.zones.getZone('deleted').getStack('deleted').add(card);
 }
 
+function targetedDamage(amnt,target,game) {
+	game.dealDamage(target,amnt);
+	game.resolveInplayDeaths();
+}
+
+function buff(amnt,target,game) {
+	target.power += amnt;
+	target.toughnes += amnt;
+}
+
+function heal(amnt, game) {
+	var target = game.zones.getZone('player-'+game.activePlayer).getStack('mainframe');
+	target.damage -= 2;
+	if (target.damage < 0) { target.damage = 0; }
+}
+
 function globalDamage(amnt, game) {
 	var c = game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').getCards();
 	c.forEach(function(card){
@@ -138,4 +163,12 @@ function globalPowerEnhance(amnt, game) {
 		card.power +=amnt;
 	});
 }
+
+function dome(amnt,game) {
+	var inactivePlayer = game.activePlayer ? 0 : 1;
+	var target = game.zones.getZone('player-'+inactivePlayer).getStack('mainframe');
+	target.damage += amnt;
+	game.checkGameOver();
+}
+
 module.exports = addEffects;

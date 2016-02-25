@@ -1,3 +1,5 @@
+var targetingFuncs = require('./targeting-functions');
+
 module.exports = function(game) {
 	function mainPhaseAction(opts, pass) {
 		if (opts && opts.type === 'play') {
@@ -8,9 +10,9 @@ module.exports = function(game) {
 			}
 			//check a target if there is one
 			var target;
-			if (card.targets) {
+			if (card.targetZonePattern) {
 				if (!opts.target) { throw new Error('no target'); }
-				target = card.targets(game, opts.target);
+				target = targetingFuncs[card.targetZonePattern](game, opts.target);
 				if (!target) { throw new Error('invalid target'); }
 			}
 			//allow player to play things from their hand
