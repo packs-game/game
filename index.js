@@ -192,4 +192,8 @@ restApp.post('/game/block', checkAuth, function(req, res) {
 restApp.get('/cards', function(req,res){
 	res.send(cards.allCards);
 });
+restApp.get('/refresh-cards', function(req,res){
+	cards.load();
+	res.sendStatus(200);
+});
 restApp.listen(3005);

@@ -8,6 +8,7 @@ var cbs = [];
 function load() {
 	lib.api.getCards(function(err,cards){
 		if (err) { return setTimeout(load, 1000);}
+		allCards.splice(0,allCards.length); //empty the array
 		cards.forEach(function(card){
 			allCards.push(card);
 			allCardsMap[card.name] = card;
@@ -59,6 +60,7 @@ load();
 module.exports = {
 	loaded: loaded,
 	onLoad: onLoad,
+	load: load,
 	generatePack: generatePack,
 	allCards: allCards,
 	allCardsMap: allCardsMap
