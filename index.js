@@ -98,6 +98,15 @@ restApp.post('/game/play-card', checkAuth, function(req, res) {
 		return res.sendStatus(400);
 	}
 
+	//tell the inactive player a card was played
+	var playerIds = [game.players[game.getInactivePlayer()].id];
+	var toSend = {
+		type: 'card-played',
+		to: playerIds,
+		data: game.zones.getCard(req.body.card)
+	};
+	queue.send('socket', toSend);
+
 	sendEvents(game, 'game-event');
 
 	return res.send(game.serialize());
