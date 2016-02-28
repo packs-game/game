@@ -53,6 +53,31 @@ describe('main phase', function() {
 		expect(z.getZone('player-' + game.activePlayer).getStack('turn-discard').cards.length).toBe(1);
 
 	});
+	it('should only allow 6 creatures in play', function() {
+		game.start();
+
+		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
+
+		var i = 0;
+		while (i < 6) {
+			var card = hand.add(cards.allCardsMap['MicroBot.exe']);
+			game.getActivePhase().action({
+				type: 'play',
+				id: card.id
+			});
+			i++;
+		}
+		expect(z.getZone('shared:player-'+game.activePlayer+'-inplay').getCards().length).toBe(6);
+
+		expect(function() {
+			var card = hand.add(cards.allCardsMap['MicroBot.exe']);
+			game.getActivePhase().action({
+				type: 'play',
+				id: card.id
+			});
+		}).toThrow();
+
+	});
 	it('a bot should have an owner id', function() {
 		game.start();
 

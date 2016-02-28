@@ -95,7 +95,7 @@ restApp.post('/game/play-card', checkAuth, function(req, res) {
 			target: req.body.target || null
 		});
 	} catch(e) {
-		return res.sendStatus(400);
+		return res.status(400).json({name: e.name, message: e.message});
 	}
 
 	//tell the inactive player a card was played

@@ -1,5 +1,7 @@
 var targetingFuncs = require('./targeting-functions');
 
+var MAX_CREATURES_IN_PLAY = 6;
+
 module.exports = function(game) {
 	function mainPhaseAction(opts, pass) {
 		if (opts && opts.type === 'play') {
@@ -15,6 +17,21 @@ module.exports = function(game) {
 				target = targetingFuncs[card.targetZonePattern](game, opts.target);
 				if (!target) { throw new Error('invalid target'); }
 			}
+			if (card.abilities) {
+				var toPutInPlay = 0;
+				card.abilities.forEach(function(ability){
+					if (ability.name === 'createCreatureToken' || ability.name === 'putIntoPlay') {
+						toPutInPlay++;
+					}
+				});
+				if (toPutInPlay > 0) {
+					var inPlay = game.zones.getZone('shared:player-'+game.activePlayer+'-inplay').getCards();
+					if (inPlay.length + toPutInPlay > MAX_CREATURES_IN_PLAY) {
+						throw new Error('would exceed max creatures');
+					}
+				}
+			}
+
 			//allow player to play things from their hand
 			var c = game.zones.getZone('player-' + game.activePlayer + ':hand').getStack('hand').getCard(opts.id, true);
 			c.resolve(game, target);
