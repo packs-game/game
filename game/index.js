@@ -77,12 +77,22 @@ GameComponents.components.Game.prototype.resolveInplayDeaths = function() {
 	self.checkGameOver();
 };
 
+GameComponents.components.Game.prototype.getPlayersMainframe = function(i) {
+	return this.zones.getZone('player-'+i).getStack('mainframe').getCards()[0];
+};
+GameComponents.components.Game.prototype.getMainframe = function() {
+	return this.zones.getZone('player-'+this.activePlayer).getStack('mainframe').getCards()[0];
+};
+GameComponents.components.Game.prototype.getInactiveMainframe = function() {
+	return this.zones.getZone('player-'+this.getInactivePlayer()).getStack('mainframe').getCards()[0];
+};
+
 GameComponents.components.Game.prototype.checkGameOver = function() {
 	var self = this;
 	self.players.forEach(function(p,i){
 		//check loss
-		var mainframe = self.zones.getZone('player-'+i).getStack('mainframe');
-		if (mainframe.damage >= self.PLAYERHEALTH) {
+		var mainframe = self.getPlayersMainframe(i);
+		if (mainframe.toughness <= 0) {
 			p.loss = true;
 			self.ended = true;
 		}
@@ -124,8 +134,8 @@ GameComponents.components.Game.prototype.resolveCombatDamage = function() {
 	//resolve damage dealt to node/mainframe stacks
 	battleZone.getCards().forEach(function(c) {
 		var inactivePlayer = game.activePlayer ? 0 : 1;
-		var target = game.zones.getZone('player-'+inactivePlayer).getStack(c.target);
-		target.damage += c.power;
+		var target = game.getInactiveMainframe();
+		target.toughness -= c.power;
 	});
 
 	//move all creatures back to their owners inplay

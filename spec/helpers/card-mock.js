@@ -555,4 +555,49 @@ module.exports = [{
 	_id: "56cecf00fb6c33b51de6111d",
 	__v: 0,
 	abilities: []
+}, {
+	__v: 0,
+	_id: "56ced771e994ed4522c4d7d2",
+	cost: 3,
+	name: "Energy Rush",
+	text: "Add 2 energy to your reserves.",
+	tier: 1,
+	type: "action",
+	abilities: [{
+		name: "addCardToCurrency",
+		value: "BASIC-GAIN-1"
+	}, {
+		name: "addCardToCurrency",
+		value: "BASIC-GAIN-1"
+	}, {
+		name: "discard",
+		value: "self"
+	}]
+}, {
+	__v: 1,
+	_id: "56d1111c0845965b9c740ece",
+	cost: 5,
+	img: "tesla.png",
+	name: "Nikola Tesla",
+	power: 3,
+	targetZonePattern: "player-(opponent)-inplay",
+	text: "Install: Deal 1 damage to an installed enemy program.",
+	tier: 4,
+	toughness: 4,
+	type: "ai",
+	abilities: [{
+		value: "1",
+		name: "targetedDamage"
+	}, {
+		value: "self",
+		name: "putIntoPlay"
+	}]
+}, {
+	__v: 0,
+	_id: "56d261b26245f300aaa3196b",
+	name: "MAINFRAME",
+	tier: 0,
+	toughness: 20,
+	type: "mainframe",
+	abilities: []
 }];

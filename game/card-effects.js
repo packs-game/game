@@ -67,9 +67,8 @@ function buff(amnt,target,game) {
 }
 
 function heal(amnt, game) {
-	var target = game.zones.getZone('player-'+game.activePlayer).getStack('mainframe');
-	target.damage -= 2;
-	if (target.damage < 0) { target.damage = 0; }
+	var target = game.zones.getZone('player-'+game.activePlayer).getStack('mainframe').getCards()[0];
+	target.toughness += 2;
 }
 
 function globalDamage(amnt, game) {
@@ -107,8 +106,8 @@ function globalPowerEnhance(amnt, game) {
 
 function dome(amnt,game) {
 	var inactivePlayer = game.activePlayer ? 0 : 1;
-	var target = game.zones.getZone('player-'+inactivePlayer).getStack('mainframe');
-	target.damage += amnt;
+	var target = game.zones.getZone('player-'+inactivePlayer).getStack('mainframe').getCards()[0];
+	target.toughness -= amnt;
 	game.checkGameOver();
 }
 

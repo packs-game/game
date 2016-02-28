@@ -30,8 +30,8 @@ describe('cards', function() {
 		game.start();
 
 		var hand = z.getZone('player-' + game.activePlayer + ':hand').getStack('hand');
-		var mainframe = z.getZone('player-' + game.activePlayer).getStack('mainframe');
-		mainframe.damage = 5;
+		var mainframe = z.getZone('player-' + game.activePlayer).getStack('mainframe').getCards()[0];
+		mainframe.toughness -= 5;
 		var c = hand.add(cards.cards.salve);
 
 		game.getActivePhase().action({
@@ -39,7 +39,7 @@ describe('cards', function() {
 			id: c.id
 		});
 
-		expect(mainframe.damage).toBe(3);
+		expect(mainframe.toughness).toBe(17);
 	});
 
 	it('should not return dupes on a pack', function() {

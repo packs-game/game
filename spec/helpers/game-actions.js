@@ -71,10 +71,10 @@ beforeEach(function() {
 	declareAttacks = function declareAttacks(game, z, creatures) {
 		game.getActivePhase().action([{
 			id: creatures[0].id,
-			target: 'node1'
+			target: 'mainframe'
 		}, {
 			id: creatures[1].id,
-			target: 'node2'
+			target: 'mainframe'
 		}]);
 	};
 

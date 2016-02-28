@@ -66,8 +66,8 @@ describe('generic rules', function() {
 		}
 		expect(game.ended).toBe(true);
 		game.players.forEach(function(p,i){
-			if (p.loss) { expect(game.zones.getZone('player-'+i).getStack('mainframe').damage).toBe(20);}
-			else { expect(game.zones.getZone('player-'+i).getStack('mainframe').damage).toBe(12);}
+			if (p.loss) { expect(game.zones.getZone('player-'+i).getStack('mainframe').getCards()[0].toughness).toBe(0);}
+			else { expect(game.zones.getZone('player-'+i).getStack('mainframe').getCards()[0].toughness).toBe(8);}
 		});
 	});
 

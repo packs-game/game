@@ -29,7 +29,7 @@ describe('combat damage phase', function() {
 		declareBlocks(game, z, creatures2, creatures);
 
 		expect(game.getActivePhase().name).toBe('second-main');
-		expect(z.getZone('shared:player-' + (game.activePlayer ? 0 : 1) + '-inplay').getCards()[0].toughness).toBe(1);
+		expect(z.getZone('shared:player-' + game.getInactivePlayer() + '-inplay').getCards()[0].toughness).toBe(1);
 		expect(z.getZone('shared:player-' + (game.activePlayer) + '-inplay').getCards()[0].toughness).toBe(1);
 	});
 
@@ -41,8 +41,7 @@ describe('combat damage phase', function() {
 		game.getActivePhase().action(null, true);
 
 		expect(game.getActivePhase().name).toBe('second-main');
-		expect(game.zones.getZone('player-' + (game.activePlayer ? 0 : 1)).getStack('node1').damage).toBe(1);
-		expect(game.zones.getZone('player-' + (game.activePlayer ? 0 : 1)).getStack('node2').damage).toBe(1);
+		expect(game.getInactiveMainframe().toughness).toBe(18);
 	});
 
 	it('game.resolveInplayDeaths() should destroy all 0 toughness bots in play', function() {

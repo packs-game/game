@@ -31,8 +31,8 @@ describe('declare attackers phase', function() {
 		game.getActivePhase().action(null, true);
 
 		declareAttacks(game, z, creatures);
-		expect(z.getZone('shared:battle').getCards()[0].target).toBe('node1');
-		expect(z.getZone('shared:battle').getCards()[1].target).toBe('node2');
+		expect(z.getZone('shared:battle').getCards()[0].target).toBe('mainframe');
+		expect(z.getZone('shared:battle').getCards()[1].target).toBe('mainframe');
 	});
 
 	it('attacking bots are tapped', function() {

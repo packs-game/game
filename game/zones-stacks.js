@@ -43,6 +43,7 @@ function addZones(game, players, cards) {
 		deck.push(card);
 		i++;
 	}
+	var mainframe = cards.allCardsMap['MAINFRAME'];
 
 	players.forEach(function(p, i) {
 		if (!p.pack) { console.log(p); throw new Error('no pack provided for player'); }
@@ -66,10 +67,7 @@ function addZones(game, players, cards) {
 		playerZones.addStack('turn-discard');
 		playerZones.addStack('discard');
 		playerZones.addStack('currency');
-		playerZones.addStack('mainframe');
-		playerZones.addStack('node1');
-		playerZones.addStack('node2');
-
+		playerZones.addStack('mainframe').add(mainframe);
 
 		sharedZones.addZone('player-' + i + '-inplay', {
 			access: 'public',
