@@ -600,4 +600,20 @@ module.exports = [{
 	toughness: 20,
 	type: "mainframe",
 	abilities: []
+}, {
+	__v: 1,
+	_id: "56d2706b9144e268abffd39c",
+	cost: 3,
+	name: "Shock",
+	targetZonePattern: "anycreatureplayer",
+	text: "Deal 1 damage.",
+	tier: 1,
+	type: "action",
+	abilities: [{
+		value: "1",
+		name: "targetedDamage"
+	}, {
+		value: "self",
+		name: "discard"
+	}]
 }];
