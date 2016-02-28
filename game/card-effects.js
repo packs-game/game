@@ -44,7 +44,7 @@ function putIntoPlay(card,game) {
 }
 function createCreatureToken(template, game) {
 	var creature = new game.components.Card(cards.allCardsMap[template], game.events);
-	creature.type = 'token';
+	creature.isToken = true;
 	creature.summoningSick = true;
 	game.zones.getZone('shared:player-' + game.activePlayer + '-inplay').addStack(creature.id).add(creature);
 	return creature;
