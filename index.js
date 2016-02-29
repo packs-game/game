@@ -38,14 +38,17 @@ function createGame(data, done) {
 	done();
 }
 
-function sendEvents(game, event) {
+function getPlayerIds(game) {
 	var playerIds = [];
 	game.players.forEach(function(p) {
 		playerIds.push(p.id);
 	});
+	return playerIds;
+}
+function sendEvents(game, event) {
 	var toSend = {
 		type: event,
-		to: playerIds,
+		to: getPlayerIds(game),
 		data: {}
 	};
 	queue.send('socket', toSend);
@@ -98,8 +101,8 @@ restApp.post('/game/play-card', checkAuth, function(req, res) {
 		return res.status(400).json({name: e.name, message: e.message});
 	}
 
-	//tell the inactive player a card was played
-	var playerIds = [game.players[game.getInactivePlayer()].id];
+	//tell the players a card was played
+	var playerIds = getPlayerIds(game);
 	var toSend = {
 		type: 'card-played',
 		to: playerIds,
@@ -116,11 +119,32 @@ restApp.post('/game/pass', checkAuth, function(req, res) {
 	var game = findUserGame(req.body.id);
 	if (!game) { return res.sendStatus(400); }
 
+	var passingPlayerIndex = game.activePlayer;
 	//ensure active player
-	if (req.body.id !== game.players[game.activePlayer].id) { return res.sendStatus(400); }
+	if (req.body.id !== game.players[passingPlayerIndex].id) { return res.sendStatus(400); }
 
+	var endingTurn = false;
+	if (game.getActivePhase().name === 'second-main') { endingTurn = true; }
 	//call the pass
 	game.getActivePhase().action(null, true);
+
+	//tell the players a pass
+	var playerIds = getPlayerIds(game);
+	var toSend = {
+		type: 'active-pass',
+		to: playerIds,
+		data: passingPlayerIndex
+	};
+	queue.send('socket', toSend);
+
+	if (endingTurn) {
+		toSend = {
+			type: 'end-turn',
+			to: playerIds,
+			data: passingPlayerIndex
+		};
+		queue.send('socket', toSend);
+	}
 
 	sendEvents(game, 'game-event');
 
@@ -136,8 +160,9 @@ restApp.post('/game/buy', checkAuth, function(req, res) {
 		return res.sendStatus(400);
 	}
 
+	var active = game.activePlayer;
 	//ensure active player
-	if (req.body.id !== game.players[game.activePlayer].id) {  }
+	if (req.body.id !== game.players[active].id) {  }
 
 	try {
 		game.getActivePhase().action({
@@ -148,6 +173,14 @@ restApp.post('/game/buy', checkAuth, function(req, res) {
 		return res.sendStatus(400);
 	}
 
+	//tell the players a card was bought
+	var playerIds = getPlayerIds(game);
+	var toSend = {
+		type: 'buy',
+		to: playerIds,
+		data: active
+	};
+	queue.send('socket', toSend);
 	sendEvents(game, 'game-event');
 
 	return res.send(game.serialize());
@@ -171,6 +204,14 @@ restApp.post('/game/attack', checkAuth, function(req, res) {
 		return res.sendStatus(400);
 	}
 
+	//tell the players attacks
+	var playerIds = getPlayerIds(game);
+	var toSend = {
+		type: 'attacks',
+		to: playerIds,
+		data: req.body.attacks
+	};
+	queue.send('socket', toSend);
 	sendEvents(game, 'game-event');
 
 	return res.send(game.serialize());
@@ -194,6 +235,13 @@ restApp.post('/game/block', checkAuth, function(req, res) {
 		return res.sendStatus(400);
 	}
 
+	var playerIds = getPlayerIds(game);
+	var toSend = {
+		type: 'blocks',
+		to: playerIds,
+		data: req.body.blocks
+	};
+	queue.send('socket', toSend);
 	sendEvents(game, 'game-event');
 
 	return res.send(game.serialize());
