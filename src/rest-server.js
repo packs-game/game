@@ -1,10 +1,6 @@
 var express = require('express');
 var lib = require('packs-lib');
 
-//FIX THIS WHEN SPLIT TO ACTUAL APPS
-var mongoose = require('mongoose');
-//mongoose.connect('mongodb://localhost/packs');
-
 var app = express();
 
 var bodyParser = require('body-parser');
